@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>✈️ Tanit Airlines - Boarding Pass</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #e0f7fa 0%, #b3e0ff 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      font-family: 'Roboto', Arial, sans-serif;
+    }
+    .boarding-pass {
+      background: #fcfcfc;
+      border-radius: 36px;
+      box-shadow: 0 8px 40px rgba(0,147,233,0.13), 0 1.5px 0 #b3e0ff inset;
+      max-width: 950px;
+      width: 97vw;
+      min-height: 440px;
+      overflow: visible;
+      position: relative;
+      border: 1.5px dashed #b3e0ff;
+      margin: 40px 0 0 0;
+      transition: box-shadow 0.2s;
+      /* Texture papier subtile */
+      background-image: repeating-linear-gradient(135deg, #f7fafd 0 2px, transparent 2px 20px);
+    }
+    /* Effet détachable : demi-cercles */
+    .bp-perforation {
+      position: absolute;
+      top: 32px;
+      bottom: 32px;
+      left: -18px;
+      width: 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .bp-perforation.right {
+      left: auto;
+      right: -18px;
+    }
+    .bp-perforation span {
+      display: block;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #e0f7fa;
+      box-shadow: 0 0 0 2px #b3e0ff inset;
+    }
+    .bp-emoji-bg {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 8.5em;
+      opacity: 0.10;
+      z-index: 0;
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+    }
+    .bp-header {
+      background: linear-gradient(90deg, #2196f3 60%, #80d0c7 100%);
+      color: #fff;
+      padding: 28px 56px 18px 130px;
+      position: relative;
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      border-radius: 36px 36px 0 0;
+      box-shadow: 0 2px 12px rgba(0,147,233,0.07);
+      overflow: hidden;
+    }
+    .bp-header::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 100px;
+      background: #1976d2;
+      border-radius: 36px 0 0 0;
+    }
+    /* Effet glossy bandeau */
+    .bp-header::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; top: 0;
+      height: 40%;
+      background: linear-gradient(180deg,rgba(255,255,255,0.22) 0%,rgba(255,255,255,0.01) 100%);
+      border-radius: 36px 36px 0 0;
+      pointer-events: none;
+    }
+    .bp-header .plane {
+      position: absolute;
+      left: 38px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2.7em;
+      opacity: 0.97;
+    }
+    .bp-header .ticket-number {
+      display: none;
+    }
+    .bp-main {
+      display: flex;
+      flex-direction: row;
+      background: transparent;
+      border-radius: 0 0 36px 36px;
+      position: relative;
+      z-index: 1;
+    }
+    .bp-left-col {
+      width: 90px;
+      background: #f4fafd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-right: 2.5px dashed #b3e0ff;
+      position: relative;
+    }
+    .bp-left-col span {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-size: 1.25em;
+      color: #2196f3;
+      letter-spacing: 0.22em;
+      font-weight: 700;
+      opacity: 0.85;
+    }
+    .bp-content {
+      flex: 1 1 0%;
+      display: flex;
+      flex-direction: row;
+      padding: 56px 0 56px 0;
+      position: relative;
+      z-index: 1;
+    }
+    .bp-info-left, .bp-info-right {
+      flex: 1 1 0%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 32px;
+      font-size: 1.22em;
+    }
+    .bp-info-left {
+      padding-left: 56px;
+      min-width: 240px;
+    }
+    .bp-info-right {
+      padding-right: 56px;
+      min-width: 240px;
+      align-items: flex-end;
+      text-align: right;
+    }
+    .bp-label {
+      color: #1976d2;
+      font-weight: 700;
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-size: 1.08em;
+      letter-spacing: 0.04em;
+    }
+    .bp-value {
+      color: #222;
+      font-weight: 500;
+      font-size: 1.13em;
+      margin-left: 8px;
+    }
+    .bp-value strong {
+      font-weight: 700;
+    }
+    .bp-center {
+      width: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .bp-row {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .bp-class {
+      color: #888;
+      font-size: 1.08em;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+    }
+    .bp-dotted {
+      position: absolute;
+      top: 0; bottom: 0;
+      left: calc(90px + 33.33%);
+      width: 0;
+      border-left: 2.5px dashed #b3e0ff;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .bp-footer {
+      text-align: right;
+      color: #1976d2;
+      font-size: 1.08em;
+      margin: 24px 32px 18px 0;
+      opacity: 0.7;
+      font-family: 'Montserrat', Arial, sans-serif;
+    }
+    .bp-actions {
+      display: flex;
+      gap: 18px;
+      justify-content: center;
+      margin: 32px 0 0 0;
+    }
+    .bp-btn {
+      padding: 15px 34px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.13em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(90deg, #0093e9 0%, #80d0c7 100%);
+      color: white;
+      box-shadow: 0 2px 8px rgba(0,147,233,0.08);
+    }
+    .bp-btn:hover {
+      background: linear-gradient(90deg, #1976d2 0%, #0093e9 100%);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+    .bp-btn.secondary {
+      background: #f4fafd;
+      color: #2196f3;
+      border: 2px solid #2196f3;
+      box-shadow: none;
+    }
+    .bp-btn.secondary:hover {
+      background: #2196f3;
+      color: #fff;
+    }
+    @media (max-width: 1100px) {
+      .boarding-pass { max-width: 99vw; }
+      .bp-content { flex-direction: column; align-items: center; padding: 18px 0; }
+      .bp-info-left, .bp-info-right { padding: 0 18px; align-items: flex-start; text-align: left; }
+      .bp-info-right { align-items: flex-start; }
+      .bp-center { margin: 18px 0; }
+      .bp-dotted { display: none; }
+      .bp-footer, .bp-actions { margin-right: 12px; }
+    }
+    @media (max-width: 700px) {
+      .bp-header { font-size: 1.1rem; padding: 18px 18px 10px 60px; }
+      .bp-info-left, .bp-info-right { min-width: 120px; font-size: 0.98em; }
+      .bp-center { width: 100px; }
+      .bp-emoji-bg { font-size: 4.5em; }
+    }
+  </style>
+</head>
+<body>
+  <div class="boarding-pass" id="bp-ticket">
+    <div class="bp-perforation">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="bp-perforation right">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="bp-emoji-bg">✈️</div>
+    <div class="bp-header">
+      <span class="plane">✈️</span>
+      BOARDING PASS
+      <span class="ticket-number" id="ticketNumber"></span>
+    </div>
+    <div class="bp-main">
+      <div class="bp-left-col">
+        <span>FLIGHT TICKET</span>
+      </div>
+      <div class="bp-content">
+        <div class="bp-info-left">
+          <div><span class="bp-label">FLIGHT</span><span class="bp-value">TANIT</span></div>
+          <div class="bp-row"><span class="bp-label">ROW</span><span class="bp-value">3.0</span></div>
+          <div><span class="bp-label">FROM</span><span class="bp-value" id="nationality">-</span></div>
+          <div><span class="bp-label">DATE</span><span class="bp-value">August</span></div>
+        </div>
+        <div class="bp-center">
+          <!-- Emoji avion en filigrane -->
+        </div>
+        <div class="bp-info-right">
+          <div class="bp-class">CLASS: BUSINESS</div>
+          <div><span class="bp-label">Passenger :</span><span class="bp-value" id="name">-</span></div>
+          <div><span class="bp-label">Date of birth:</span><span class="bp-value" id="dob">-</span></div>
+          <div><span class="bp-label">Phone Number</span><span class="bp-value" id="phone">-</span></div>
+        </div>
+        <div class="bp-dotted"></div>
+      </div>
+    </div>
+    <div class="bp-footer">
+      &copy; Tanit Airlines 2025. All rights reserved.
+    </div>
+  </div>
+  <div class="bp-actions">
+    <a href="index.html" class="bp-btn secondary">🏠 Accueil</a>
+    <button class="bp-btn" id="downloadBtn">⬇️ Télécharger PDF</button>
+  </div>
+  <script>
+    // Récupérer les paramètres de l'URL
+    const urlParams = new URLSearchParams(window.location.search);
+    function decodeParam(param) {
+      return param ? decodeURIComponent(param) : '-';
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('name').textContent = decodeParam(urlParams.get('name'));
+      document.getElementById('nationality').textContent = decodeParam(urlParams.get('nationality'));
+      document.getElementById('dob').textContent = decodeParam(urlParams.get('dob'));
+      document.getElementById('phone').textContent = decodeParam(urlParams.get('phone'));
+    });
+    // PDF Download
+    document.getElementById('downloadBtn').addEventListener('click', function() {
+      const ticket = document.getElementById('bp-ticket');
+      html2canvas(ticket, {backgroundColor: null, scale: 2}).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new window.jspdf.jsPDF({orientation: 'landscape', unit: 'pt', format: [ticket.offsetWidth, ticket.offsetHeight]});
+        pdf.addImage(imgData, 'PNG', 0, 0, ticket.offsetWidth, ticket.offsetHeight);
+        pdf.save('boarding-pass-tanit.pdf');
+      });
+    });
+  </script>
+</body>
+</html>

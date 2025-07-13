@@ -348,7 +348,8 @@
             </div>
 
             <label>Upload a photo of yourself</label>
-            <input type="file" name="Photo">
+            <input type="file" name="Photo" accept="image/*" max="5">
+            <small style="color: #666; font-size: 0.9em;">Format: JPG, PNG, GIF (max 5MB)</small>
 
             <label>Favorite Football Team?</label>
             <input type="text" name="Football Team">
@@ -428,14 +429,167 @@
       });
     });
 
-    form.addEventListener('submit', e => {
+    // Fonction pour convertir l'image en base64
+    function convertImageToBase64(file) {
+      return new Promise((resolve, reject) => {
+        // Vérifier la taille du fichier (5MB max)
+        const maxSize = 5 * 1024 * 1024; // 5MB en bytes
+        if (file.size > maxSize) {
+          reject(new Error('Fichier trop volumineux. Taille max: 5MB'));
+          return;
+        }
+
+        // Vérifier le type de fichier
+        if (!file.type.startsWith('image/')) {
+          reject(new Error('Format de fichier non supporté. Utilisez JPG, PNG ou GIF'));
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // Fonction pour obtenir la valeur sélectionnée des boutons radio
+    function getSelectedRadioValue(name) {
+      const selected = document.querySelector(`input[name="${name}"]:checked`);
+      return selected ? selected.value : '';
+    }
+
+    form.addEventListener('submit', async e => {
       e.preventDefault();
-      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-        .then(response => {
-          alert("🎉 Inscription envoyée avec succès !");
-          form.reset();
-        })
-        .catch(error => alert("⚠️ Erreur d'envoi. Merci de réessayer."));
+      
+      // Validation des champs requis
+      const requiredFields = [
+        'Full Name', 'Nationality', 'Entity Name', 'LC Name', 'Passport Number',
+        'Email Address', 'Phone Number', 'Emergency Contact', 'Date of Birth',
+        'Allergies', 'Dietary', 'Goals', 'Sessions', 'Contact Method', 'Room Upgrade'
+      ];
+
+      for (const fieldName of requiredFields) {
+        const field = form.querySelector(`[name="${fieldName}"]`);
+        if (field && field.type === 'radio') {
+          const selected = form.querySelector(`[name="${fieldName}"]:checked`);
+          if (!selected) {
+            alert(`⚠️ Veuillez sélectionner une option pour: ${fieldName}`);
+            return;
+          }
+        } else if (field && field.type === 'select-one') {
+          if (!field.value) {
+            alert(`⚠️ Veuillez sélectionner une option pour: ${fieldName}`);
+            return;
+          }
+        } else if (field && field.type === 'checkbox') {
+          if (!field.checked) {
+            alert(`⚠️ Veuillez accepter les termes et conditions`);
+            return;
+          }
+        } else if (field && !field.value.trim()) {
+          alert(`⚠️ Veuillez remplir le champ: ${fieldName}`);
+          field.focus();
+          return;
+        }
+      }
+
+      // Validation spécifique pour Gender
+      const genderSelected = getSelectedRadioValue('Gender');
+      if (!genderSelected) {
+        alert('⚠️ Veuillez sélectionner votre genre');
+        return;
+      }
+      
+      try {
+        // Créer un nouveau FormData
+        const formData = new FormData(form);
+        
+        // Gérer l'upload de photo
+        const photoFile = formData.get('Photo');
+        if (photoFile && photoFile.size > 0) {
+          try {
+            const base64Image = await convertImageToBase64(photoFile);
+            formData.set('Photo', base64Image);
+          } catch (error) {
+            console.error('Erreur conversion photo:', error);
+            alert(`⚠️ Erreur photo: ${error.message}`);
+            return; // Arrêter la soumission si erreur photo
+          }
+        } else {
+          formData.set('Photo', 'Aucune photo uploadée');
+        }
+
+        // S'assurer que les valeurs des boutons radio sont bien capturées
+        const genderValue = getSelectedRadioValue('Gender');
+        if (genderValue) {
+          formData.set('Gender', genderValue);
+        }
+
+        const allergiesValue = getSelectedRadioValue('Allergies');
+        if (allergiesValue) {
+          formData.set('Allergies', allergiesValue);
+        }
+
+        const chronicValue = getSelectedRadioValue('Chronic Condition');
+        if (chronicValue) {
+          formData.set('Chronic Condition', chronicValue);
+        }
+
+        const contactValue = getSelectedRadioValue('Contact Method');
+        if (contactValue) {
+          formData.set('Contact Method', contactValue);
+        }
+
+        const roomValue = getSelectedRadioValue('Room Upgrade');
+        if (roomValue) {
+          formData.set('Room Upgrade', roomValue);
+        }
+
+        // Envoyer les données
+        const response = await fetch(scriptURL, { 
+          method: 'POST', 
+          body: formData
+        });
+        
+        if (response.ok) {
+          // Extraire les données principales pour le boarding pass
+          const name = formData.get('Full Name') || '';
+          const nationality = formData.get('Nationality') || '';
+          const dob = formData.get('Date of Birth') || '';
+          const phone = formData.get('Phone Number') || '';
+          const email = formData.get('Email Address') || '';
+          const entity = formData.get('Entity Name') || '';
+          const lcName = formData.get('LC Name') || '';
+          const passport = formData.get('Passport Number') || '';
+          const gender = formData.get('Gender') || '';
+          const roomUpgrade = formData.get('Room Upgrade') || '';
+          
+          // Générer un numéro de billet unique
+          const ticketNumber = 'TN' + Date.now() + Math.random().toString(36).substr(2, 5).toUpperCase();
+          
+          // Redirection vers boarding pass avec les données
+          const params = new URLSearchParams({
+            name: name,
+            nationality: nationality,
+            dob: dob,
+            phone: phone,
+            email: email,
+            entity: entity,
+            lcName: lcName,
+            passport: passport,
+            gender: gender,
+            roomUpgrade: roomUpgrade,
+            ticketNumber: ticketNumber
+          });
+          
+          window.location.href = `boardingpass.html?${params.toString()}`;
+        } else {
+          throw new Error('Erreur réseau');
+        }
+      } catch (error) {
+        console.error('Erreur:', error);
+        alert("⚠️ Erreur d'envoi. Merci de réessayer.");
+      }
     });
   </script>
 </body>
