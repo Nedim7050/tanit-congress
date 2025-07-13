@@ -1,0 +1,60 @@
+/* -------------------------------------------------------------------------- */
+/*                                 Theme                                      */
+/* -------------------------------------------------------------------------- */
+
+@import "../../node_modules/bootstrap/scss/_functions.scss";
+@import "theme/functions";
+
+@import "../../node_modules/bootstrap/scss/mixins";
+@import "theme/mixins";
+
+@import "user-variables";
+@import "theme/variables";
+@import 'theme/_utilities.scss';
+@import "../../node_modules/bootstrap/scss/variables";
+
+/*-----------------------------------------------
+|   Bootstrap Styles
+-----------------------------------------------*/
+@import "bootstrap";
+
+/*-----------------------------------------------
+|   Theme Styles
+-----------------------------------------------*/
+@import "theme/theme";
+
+/*-----------------------------------------------
+|   User Styles
+-----------------------------------------------*/
+@import "user";
+
+// Animations personnalisées ajoutées pour TANIT 2K25
+.logo-anim {
+  transition: transform 0.5s;
+}
+.navbar-title {
+  transition: color 0.5s, opacity 0.8s;
+}
+
+.activity-img-anim {
+  transition: transform 0.5s, box-shadow 0.5s;
+  will-change: transform, box-shadow;
+}
+.activity-img-anim:hover {
+  transform: scale(1.08) rotate(-2deg);
+  box-shadow: 0 8px 32px 0 rgba(58,80,107,0.18);
+}
+
+.registration-img-anim {
+  transition: transform 0.5s, box-shadow 0.5s;
+  will-change: transform, box-shadow;
+}
+.registration-img-anim:hover {
+  transform: scale(1.07);
+  box-shadow: 0 8px 32px 0 rgba(58,80,107,0.18);
+}
+
+#plane-bg-anim svg {
+  pointer-events: none;
+  z-index: 2;
+}

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>✈️ Tanit Airlines Registration</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #e0f7fa 0%, #b3e0ff 100%);
+      color: #222;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    .airline-header {
+      background: linear-gradient(90deg, #0093e9 0%, #80d0c7 100%);
+      color: #fff;
+      padding: 0;
+      min-height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0 0 38px 38px;
+      box-shadow: 0 8px 32px rgba(0, 147, 233, 0.13);
+      position: relative;
+      transition: box-shadow 0.2s;
+    }
+    .airline-header img {
+      height: 60px;
+      margin-right: 22px;
+      margin-left: 10px;
+      transition: transform 0.2s;
+    }
+    .airline-header h1 {
+      display: inline-block;
+      font-family: 'Baloo 2', 'Poppins', Arial, sans-serif;
+      font-size: 2.7rem;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      margin: 0;
+      vertical-align: middle;
+      text-shadow: 0 2px 8px #0093e955;
+    }
+    .airline-header:hover {
+      box-shadow: 0 12px 40px rgba(0, 147, 233, 0.18);
+    }
+    .airline-header:hover img {
+      transform: scale(1.08) rotate(-4deg);
+    }
+    .boarding-pass {
+      background: #fff;
+      max-width: 1100px;
+      margin: 48px auto;
+      padding: 0 0 36px 0;
+      border-radius: 28px;
+      box-shadow: 0 12px 48px rgba(0,147,233,0.13);
+      border: 2.5px dashed #0093e9;
+      position: relative;
+      overflow: hidden;
+    }
+    .boarding-pass::before, .boarding-pass::after {
+      content: '';
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: #e0f7fa;
+      border-radius: 50%;
+      z-index: 1;
+    }
+    .boarding-pass::before {
+      left: -30px;
+      top: -30px;
+    }
+    .boarding-pass::after {
+      right: -30px;
+      bottom: -30px;
+    }
+    .section-card {
+      background: #f8fbff;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,147,233,0.06);
+      padding: 24px 24px 12px 24px;
+      margin: 32px 0 18px 0;
+      position: relative;
+    }
+    .section-card h2 {
+      display: flex;
+      align-items: center;
+      font-family: 'Baloo 2', 'Poppins', Arial, sans-serif;
+      font-size: 1.3rem;
+      color: #0093e9;
+      margin: 0 0 18px 0;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .section-card h2 .icon {
+      font-size: 1.5em;
+      margin-right: 10px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #1a3a5c;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      border: 1.5px solid #b3e0ff;
+      border-radius: 8px;
+      font-size: 1em;
+      background: #fafdff;
+      transition: border 0.2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      border: 1.5px solid #0093e9;
+      outline: none;
+    }
+    textarea {
+      resize: vertical;
+    }
+    .radio-group, .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 10px;
+    }
+    .radio-group label, .checkbox-group label {
+      font-weight: normal;
+    }
+    .submit-btn {
+      background: linear-gradient(90deg, #0093e9 0%, #80d0c7 100%);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      margin-top: 30px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1.2em;
+      font-family: 'Baloo 2', 'Poppins', Arial, sans-serif;
+      font-weight: 700;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 16px rgba(0,147,233,0.10);
+      transition: background 0.2s, box-shadow 0.2s;
+      display: block;
+      width: 100%;
+    }
+    .submit-btn:hover {
+      background: linear-gradient(90deg, #0077b6 0%, #0093e9 100%);
+      box-shadow: 0 8px 32px rgba(0,147,233,0.13);
+    }
+    .airline-footer {
+      text-align: center;
+      color: #0077b6;
+      font-size: 1.1em;
+      margin: 32px 0 0 0;
+      opacity: 0.7;
+    }
+    .form-steps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      margin-top: 24px;
+    }
+    .form-col {
+      flex: 1 1 350px;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .form-col.left {
+      margin-right: 12px;
+    }
+    .form-col.right {
+      margin-left: 12px;
+    }
+    .section-card {
+      margin-bottom: 28px;
+      border-left: 6px solid #0093e9;
+      position: relative;
+    }
+    .section-card h2 {
+      margin-bottom: 12px;
+      font-size: 1.15rem;
+      background: linear-gradient(90deg, #e0f7fa 60%, #b3e0ff 100%);
+      border-radius: 8px;
+      padding: 8px 16px;
+      box-shadow: 0 2px 8px rgba(0,147,233,0.04);
+      position: relative;
+    }
+    .section-card .step {
+      display: inline-block;
+      background: #0093e9;
+      color: #fff;
+      border-radius: 50%;
+      width: 2em;
+      height: 2em;
+      text-align: center;
+      line-height: 2em;
+      font-size: 1.1em;
+      font-family: 'Baloo 2', 'Poppins', Arial, sans-serif;
+      margin-right: 10px;
+      box-shadow: 0 2px 8px #b3e0ff44;
+    }
+    @media (max-width: 900px) {
+      .form-steps {
+        flex-direction: column;
+        gap: 0;
+      }
+      .form-col.left, .form-col.right {
+        margin: 0;
+      }
+    }
+    @media (max-width: 600px) {
+      .boarding-pass {
+        padding: 0 0 10px 0 !important;
+      }
+      .form-steps {
+        flex-direction: column;
+        gap: 0;
+      }
+      .form-col {
+        margin: 0 !important;
+      }
+      .section-card {
+        padding: 16px 8px 8px 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="airline-header">
+    <img src="assets/img/logo tanit.png" alt="Tanit Airlines Logo" />
+    <h1>Tanit Airlines – Congress Registration</h1>
+  </div>
+  <div class="boarding-pass">
+    <form name="submit-to-google-sheet" id="registration-form" style="padding: 0 30px;">
+      <div class="form-steps">
+        <div class="form-col left">
+          <!-- Step 1: Personal Information -->
+          <div class="section-card">
+            <h2><span class="step">①</span> <span class="icon">👤</span> Personal Information</h2>
+
+            <label>Full Name *</label>
+            <input type="text" name="Full Name" required>
+
+            <label>Nationality *</label>
+            <input type="text" name="Nationality" required>
+
+            <label>Entity Name *</label>
+            <input type="text" name="Entity Name" required>
+
+            <label>LC Name *</label>
+            <input type="text" name="LC Name" required>
+
+            <label>Passport Number *</label>
+            <input type="text" name="Passport Number" required>
+
+            <label>Email Address *</label>
+            <input type="email" name="Email Address" required>
+
+            <label>Phone Number *</label>
+            <input type="tel" name="Phone Number" required>
+
+            <label>Emergency Phone Number *</label>
+            <input type="tel" name="Emergency Contact" required>
+
+            <label>Gender *</label>
+            <div class="radio-group" id="gender-group">
+              <label><input type="radio" name="Gender" value="Male" required> Male</label>
+              <label><input type="radio" name="Gender" value="Female"> Female</label>
+              <label><input type="radio" name="Gender" value="Other"> Other</label>
+            </div>
+            <div class="other-input" id="gender-other" style="display:none; margin-top:8px;">
+              <input type="text" name="Gender Other" placeholder="Please specify your gender..." />
+            </div>
+
+            <label>Date of Birth *</label>
+            <input type="date" name="Date of Birth" required>
+          </div>
+          <!-- Step 2: Health & Dietary -->
+          <div class="section-card">
+            <h2><span class="step">②</span> <span class="icon">🍏</span> Health & Dietary</h2>
+
+            <label>Do you have any allergies? *</label>
+            <div class="radio-group">
+              <label><input type="radio" name="Allergies" value="Yes" required> Yes</label>
+              <label><input type="radio" name="Allergies" value="No"> No</label>
+            </div>
+
+            <label>Chronic medical conditions we should be aware of?</label>
+            <div class="radio-group" id="chronic-group">
+              <label><input type="radio" name="Chronic Condition" value="Yes"> Yes</label>
+              <label><input type="radio" name="Chronic Condition" value="No"> No</label>
+              <label><input type="radio" name="Chronic Condition" value="Other"> Other</label>
+            </div>
+            <div class="other-input" id="chronic-other" style="display:none; margin-top:8px;">
+              <input type="text" name="Chronic Condition Other" placeholder="Please specify your condition..." />
+            </div>
+
+            <label>Dietary Restrictions *</label>
+            <select name="Dietary" id="dietary-select" required>
+              <option value="">Select</option>
+              <option value="None">None</option>
+              <option value="Vegetarian">Vegetarian</option>
+              <option value="Vegan">Vegan</option>
+              <option value="Halal">Halal</option>
+              <option value="Kosher">Kosher</option>
+              <option value="Gluten-Free">Gluten-Free</option>
+              <option value="Other">Other</option>
+            </select>
+            <div class="other-input" id="dietary-other" style="display:none; margin-top:8px;">
+              <input type="text" name="Dietary Other" placeholder="Please specify your dietary restriction..." />
+            </div>
+          </div>
+        </div>
+        <div class="form-col right">
+          <!-- Step 3: Congress Expectations -->
+          <div class="section-card">
+            <h2><span class="step">③</span> <span class="icon">🎯</span> Congress Expectations</h2>
+
+            <label>What are your main goals for attending the congress? *</label>
+            <textarea name="Goals" required></textarea>
+
+            <label>Which topics or sessions interest you most? *</label>
+            <textarea name="Sessions" required></textarea>
+          </div>
+          <!-- Step 4: Collaboration & Support -->
+          <div class="section-card">
+            <h2><span class="step">④</span> <span class="icon">🤝</span> Collaboration & Support</h2>
+
+            <label>How can our team support you during the event?</label>
+            <textarea name="Support Needs"></textarea>
+
+            <label>Preferred Communication Method *</label>
+            <div class="radio-group" id="contact-group">
+              <label><input type="radio" name="Contact Method" value="Email" required> Email</label>
+              <label><input type="radio" name="Contact Method" value="WhatsApp"> WhatsApp</label>
+              <label><input type="radio" name="Contact Method" value="Other"> Other</label>
+            </div>
+            <div class="other-input" id="contact-other" style="display:none; margin-top:8px;">
+              <input type="text" name="Contact Method Other" placeholder="Please specify your contact method..." />
+            </div>
+
+            <label>Upload a photo of yourself</label>
+            <input type="file" name="Photo">
+
+            <label>Favorite Football Team?</label>
+            <input type="text" name="Football Team">
+
+            <label>Favorite Hobby?</label>
+            <input type="text" name="Hobby">
+
+            <label>Places in Tunisia you want to visit?</label>
+            <textarea name="Places to Visit"></textarea>
+
+            <label>Any final comments or special requests?</label>
+            <textarea name="Final Comments"></textarea>
+          </div>
+          <!-- Step 5: Congress Fees & Room -->
+          <div class="section-card">
+            <h2><span class="step">⑤</span> <span class="icon">💳</span> Congress Fees & Room</h2>
+
+            <p>The participation fee is <strong>120 EUR/USD per night</strong>.</p>
+
+            <label>Would you like to upgrade to a single room? *</label>
+            <div class="radio-group">
+              <label><input type="radio" name="Room Upgrade" value="No" required> No (Shared accommodation)</label>
+              <label><input type="radio" name="Room Upgrade" value="Yes"> Yes (+50 EUR/USD per night)</label>
+            </div>
+          </div>
+          <!-- Step 6: Terms & Conditions -->
+          <div class="section-card">
+            <h2><span class="step">⑥</span> <span class="icon">📄</span> Terms & Conditions</h2>
+            <p>
+              • I understand the total conference fee is 120 EUR/USD per night.<br>
+              • I accept the 100% cancellation fee if I cancel.<br>
+              • I agree to pay +50 EUR/USD per night if I choose a single room.<br>
+              • I confirm my information is accurate and I will comply with the rules.<br>
+              • No refunds for no-shows or late cancellations.
+            </p>
+
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="Agreement" value="I Agree" required> I fully agree to the terms and conditions outlined above.</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="submit-btn" type="submit"><span style='font-size:1.3em;'>✈️</span> Submit Registration</button>
+    </form>
+  </div>
+  <div class="airline-footer">
+    &copy; Tanit Airlines 2025. All rights reserved.
+  </div>
+
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxcxBGNUyh4qxmSgqdO2gXbDMPNRy0k2cOD4lkOytRLb2lFiizXcZSX7MFNBTRsOpWM/exec';
+    const form = document.forms['submit-to-google-sheet'];
+
+    // Affichage dynamique des champs 'Other'
+    document.addEventListener('DOMContentLoaded', function() {
+      // Gender
+      document.querySelectorAll('input[name="Gender"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+          document.getElementById('gender-other').style.display = (this.value === 'Other') ? 'block' : 'none';
+        });
+      });
+      // Chronic Condition
+      document.querySelectorAll('input[name="Chronic Condition"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+          document.getElementById('chronic-other').style.display = (this.value === 'Other') ? 'block' : 'none';
+        });
+      });
+      // Dietary
+      document.getElementById('dietary-select').addEventListener('change', function() {
+        document.getElementById('dietary-other').style.display = (this.value === 'Other') ? 'block' : 'none';
+      });
+      // Contact Method
+      document.querySelectorAll('input[name="Contact Method"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+          document.getElementById('contact-other').style.display = (this.value === 'Other') ? 'block' : 'none';
+        });
+      });
+    });
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+        .then(response => {
+          alert("🎉 Inscription envoyée avec succès !");
+          form.reset();
+        })
+        .catch(error => alert("⚠️ Erreur d'envoi. Merci de réessayer."));
+    });
+  </script>
+</body>
+</html>
