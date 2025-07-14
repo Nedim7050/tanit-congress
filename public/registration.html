@@ -497,17 +497,8 @@
       e.preventDefault();
       const statusMsg = document.getElementById('form-status-message');
       const submitBtn = form.querySelector('.submit-btn');
-      // Afficher le message d'envoi en cours avec spinner
-      statusMsg.innerHTML = '<span class="spinner"></span>Envoi en cours...';
-      statusMsg.style.display = 'block';
-      statusMsg.style.background = '#e0f7fa';
-      statusMsg.style.color = '#0077b6';
-      submitBtn.disabled = true;
-      submitBtn.style.opacity = 0.6;
-      // Désactiver tous les champs du formulaire
-      Array.from(form.elements).forEach(el => { el.disabled = true; });
       
-      // Validation des champs requis
+      // Validation des champs requis AVANT de désactiver les champs
       const requiredFields = [
         'Full Name', 'Nationality', 'Entity Name', 'LC Name', 'Passport Number',
         'Email Address', 'Phone Number', 'Emergency Contact', 'Date of Birth',
@@ -535,9 +526,6 @@
         } else if (field && !field.value.trim()) {
           alert(`⚠️ Veuillez remplir le champ: ${fieldName}`);
           field.focus();
-          statusMsg.style.display = 'none';
-          submitBtn.disabled = false;
-          submitBtn.style.opacity = 1;
           return;
         }
       }
@@ -546,88 +534,103 @@
       const genderSelected = getSelectedRadioValue('Gender');
       if (!genderSelected) {
         alert('⚠️ Veuillez sélectionner votre genre');
-        statusMsg.style.display = 'none';
-        submitBtn.disabled = false;
-        submitBtn.style.opacity = 1;
         return;
       }
+
+      // Créer un nouveau FormData AVANT de désactiver les champs
+      const formData = new FormData(form);
+      
+      // Gérer l'upload de photo
+      const photoFile = formData.get('Photo');
+      if (photoFile && photoFile.size > 0) {
+        try {
+          const base64Image = await convertImageToBase64(photoFile);
+          formData.set('Photo', base64Image);
+        } catch (error) {
+          console.error('Erreur conversion photo:', error);
+          alert(`⚠️ Erreur photo: ${error.message}`);
+          return;
+        }
+      } else {
+        formData.set('Photo', 'Aucune photo uploadée');
+      }
+
+      // S'assurer que les valeurs des boutons radio sont bien capturées
+      // GENDER
+      const genderValue = getSelectedRadioValue('Gender');
+      if (genderValue === 'Other') {
+        const genderOther = form.querySelector('input[name="Gender Other"]');
+        if (genderOther && genderOther.value.trim()) {
+          formData.set('Gender', genderOther.value.trim());
+        } else {
+          formData.set('Gender', 'Other');
+        }
+      } else if (genderValue) {
+        formData.set('Gender', genderValue);
+      }
+
+      // ALLERGIES
+      const allergiesValue = getSelectedRadioValue('Allergies');
+      if (allergiesValue) {
+        formData.set('Allergies', allergiesValue);
+      }
+
+      // CHRONIC CONDITION
+      const chronicValue = getSelectedRadioValue('Chronic Condition');
+      if (chronicValue === 'Other') {
+        const chronicOther = form.querySelector('input[name="Chronic Condition Other"]');
+        if (chronicOther && chronicOther.value.trim()) {
+          formData.set('Chronic Condition', chronicOther.value.trim());
+        } else {
+          formData.set('Chronic Condition', 'Other');
+        }
+      } else if (chronicValue) {
+        formData.set('Chronic Condition', chronicValue);
+      }
+
+      // CONTACT METHOD
+      const contactValue = getSelectedRadioValue('Contact Method');
+      if (contactValue === 'Other') {
+        const contactOther = form.querySelector('input[name="Contact Method Other"]');
+        if (contactOther && contactOther.value.trim()) {
+          formData.set('Contact Method', contactOther.value.trim());
+        } else {
+          formData.set('Contact Method', 'Other');
+        }
+      } else if (contactValue) {
+        formData.set('Contact Method', contactValue);
+      }
+
+      // ROOM UPGRADE
+      const roomValue = getSelectedRadioValue('Room Upgrade');
+      if (roomValue) {
+        formData.set('Room Upgrade', roomValue);
+      }
+
+      // MAINTENANT on peut désactiver les champs et afficher le message de chargement
+      statusMsg.innerHTML = '<span class="spinner"></span>Envoi en cours...';
+      statusMsg.style.display = 'block';
+      statusMsg.style.background = '#e0f7fa';
+      statusMsg.style.color = '#0077b6';
+      submitBtn.disabled = true;
+      submitBtn.style.opacity = 0.6;
+      // Désactiver tous les champs du formulaire
+      Array.from(form.elements).forEach(el => { el.disabled = true; });
       
       try {
-        // Créer un nouveau FormData
-        const formData = new FormData(form);
+        // Debug: afficher les données qui vont être envoyées
+        console.log('Données à envoyer:');
+        for (let [key, value] of formData.entries()) {
+          console.log(`${key}: ${value}`);
+        }
         
-        // Gérer l'upload de photo
-        const photoFile = formData.get('Photo');
-        if (photoFile && photoFile.size > 0) {
-          try {
-            const base64Image = await convertImageToBase64(photoFile);
-            formData.set('Photo', base64Image);
-          } catch (error) {
-            console.error('Erreur conversion photo:', error);
-            alert(`⚠️ Erreur photo: ${error.message}`);
-            return; // Arrêter la soumission si erreur photo
-          }
-        } else {
-          formData.set('Photo', 'Aucune photo uploadée');
-        }
-
-        // S'assurer que les valeurs des boutons radio sont bien capturées
-        // GENDER
-        const genderValue = getSelectedRadioValue('Gender');
-        if (genderValue === 'Other') {
-          const genderOther = form.querySelector('input[name="Gender Other"]');
-          if (genderOther && genderOther.value.trim()) {
-            formData.set('Gender', genderOther.value.trim());
-          } else {
-            formData.set('Gender', 'Other');
-          }
-        } else if (genderValue) {
-          formData.set('Gender', genderValue);
-        }
-
-        // ALLERGIES
-        const allergiesValue = getSelectedRadioValue('Allergies');
-        if (allergiesValue) {
-          formData.set('Allergies', allergiesValue);
-        }
-
-        // CHRONIC CONDITION
-        const chronicValue = getSelectedRadioValue('Chronic Condition');
-        if (chronicValue === 'Other') {
-          const chronicOther = form.querySelector('input[name="Chronic Condition Other"]');
-          if (chronicOther && chronicOther.value.trim()) {
-            formData.set('Chronic Condition', chronicOther.value.trim());
-          } else {
-            formData.set('Chronic Condition', 'Other');
-          }
-        } else if (chronicValue) {
-          formData.set('Chronic Condition', chronicValue);
-        }
-
-        // CONTACT METHOD
-        const contactValue = getSelectedRadioValue('Contact Method');
-        if (contactValue === 'Other') {
-          const contactOther = form.querySelector('input[name="Contact Method Other"]');
-          if (contactOther && contactOther.value.trim()) {
-            formData.set('Contact Method', contactOther.value.trim());
-          } else {
-            formData.set('Contact Method', 'Other');
-          }
-        } else if (contactValue) {
-          formData.set('Contact Method', contactValue);
-        }
-
-        // ROOM UPGRADE
-        const roomValue = getSelectedRadioValue('Room Upgrade');
-        if (roomValue) {
-          formData.set('Room Upgrade', roomValue);
-        }
-
         // Envoyer les données
         const response = await fetch(scriptURL, { 
           method: 'POST', 
           body: formData
         });
+        
+        console.log('Réponse du serveur:', response.status, response.statusText);
         
         if (response.ok) {
           // Afficher le message de succès

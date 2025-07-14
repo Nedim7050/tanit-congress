@@ -111,6 +111,10 @@
     }
     .bp-header .ticket-number {
       display: none;
+      font-size: 0.8em;
+      font-weight: 600;
+      margin-left: 15px;
+      opacity: 0.9;
     }
     .bp-main {
       display: flex;
@@ -354,11 +358,29 @@
       return param ? decodeURIComponent(param) : '-';
     }
     document.addEventListener('DOMContentLoaded', function() {
+      // Afficher les données du passager
       document.getElementById('name').textContent = decodeParam(urlParams.get('name'));
       document.getElementById('nationality').textContent = decodeParam(urlParams.get('nationality'));
       document.getElementById('dob').textContent = decodeParam(urlParams.get('dob'));
       document.getElementById('phone').textContent = decodeParam(urlParams.get('phone'));
+      
+      // Afficher le numéro de ticket
+      const ticketNumber = decodeParam(urlParams.get('ticketNumber'));
+      if (ticketNumber && ticketNumber !== '-') {
+        document.getElementById('ticketNumber').textContent = `#${ticketNumber}`;
+        document.getElementById('ticketNumber').style.display = 'inline';
+      }
+      
+      // Debug: afficher les paramètres dans la console
+      console.log('Paramètres reçus:', {
+        name: urlParams.get('name'),
+        nationality: urlParams.get('nationality'),
+        dob: urlParams.get('dob'),
+        phone: urlParams.get('phone'),
+        ticketNumber: urlParams.get('ticketNumber')
+      });
     });
+    
     // PDF Download
     document.getElementById('downloadBtn').addEventListener('click', function() {
       const ticket = document.getElementById('bp-ticket');
