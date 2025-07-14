@@ -175,7 +175,7 @@
     .bp-value {
       color: #222;
       font-weight: 500;
-      font-size: 1.13em;
+      font-size: 0.98em;
       margin-left: 8px;
     }
     .bp-value strong {
@@ -254,6 +254,31 @@
       background: #2196f3;
       color: #fff;
     }
+    .bp-row-info {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 6px 0;
+      width: 100%;
+      font-size: 1em;
+    }
+    .bp-row-info-inline {
+      display: flex;
+      flex-direction: row;
+      gap: 32px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 10px 0 0 0;
+      font-size: 1em;
+    }
+    .bp-row-info-inline span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
     @media (max-width: 1100px) {
       .boarding-pass { max-width: 99vw; }
       .bp-content { flex-direction: column; align-items: center; padding: 18px 0; }
@@ -262,6 +287,10 @@
       .bp-center { margin: 18px 0; }
       .bp-dotted { display: none; }
       .bp-footer, .bp-actions { margin-right: 12px; }
+      .bp-row-info-inline {
+        gap: 12px;
+        flex-wrap: wrap;
+      }
     }
     @media (max-width: 700px) {
       .bp-header { font-size: 1.1rem; padding: 18px 18px 10px 60px; }
@@ -301,9 +330,11 @@
         </div>
         <div class="bp-info-right">
           <div class="bp-class">CLASS: BUSINESS</div>
-          <div><span class="bp-label">Passenger :</span><span class="bp-value" id="name">-</span></div>
-          <div><span class="bp-label">Date of birth:</span><span class="bp-value" id="dob">-</span></div>
-          <div><span class="bp-label">Phone Number</span><span class="bp-value" id="phone">-</span></div>
+          <div class="bp-row-info-inline">
+            <span><span class="bp-label">Passenger</span> <span class="bp-value" id="name">-</span></span>
+            <span><span class="bp-label">Date of birth</span> <span class="bp-value" id="dob">-</span></span>
+            <span><span class="bp-label">Phone Number</span> <span class="bp-value" id="phone">-</span></span>
+          </div>
         </div>
         <div class="bp-dotted"></div>
       </div>
