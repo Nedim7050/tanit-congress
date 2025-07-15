@@ -302,6 +302,142 @@
       .bp-center { width: 100px; }
       .bp-emoji-bg { font-size: 4.5em; }
     }
+    
+    /* Optimisations mobile supplémentaires */
+    @media (max-width: 600px) {
+      .boarding-pass {
+        margin: 20px 10px !important;
+        border-radius: 20px !important;
+        min-height: 380px !important;
+      }
+      
+      .bp-header {
+        font-size: 1rem !important;
+        padding: 15px 15px 8px 50px !important;
+        letter-spacing: 1.5px !important;
+      }
+      
+      .bp-header .plane {
+        font-size: 2em !important;
+        left: 25px !important;
+      }
+      
+      .bp-content {
+        padding: 30px 0 !important;
+        flex-direction: column !important;
+        gap: 20px !important;
+      }
+      
+      .bp-info-left, .bp-info-right {
+        padding: 0 20px !important;
+        min-width: auto !important;
+        font-size: 0.9em !important;
+        gap: 20px !important;
+      }
+      
+      .bp-info-right {
+        align-items: flex-start !important;
+        text-align: left !important;
+      }
+      
+      .bp-center {
+        width: auto !important;
+        margin: 10px 0 !important;
+      }
+      
+      .bp-left-col {
+        width: 60px !important;
+      }
+      
+      .bp-left-col span {
+        font-size: 1em !important;
+      }
+      
+      .bp-row-info-inline {
+        flex-direction: column !important;
+        gap: 8px !important;
+        align-items: flex-start !important;
+      }
+      
+      .bp-row-info-inline span {
+        white-space: normal !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 2px !important;
+      }
+      
+      .bp-actions {
+        flex-direction: column !important;
+        gap: 12px !important;
+        margin: 20px 0 !important;
+      }
+      
+      .bp-btn {
+        padding: 12px 24px !important;
+        font-size: 1rem !important;
+        width: 100% !important;
+        max-width: 280px !important;
+        justify-content: center !important;
+      }
+      
+      .bp-emoji-bg {
+        font-size: 3em !important;
+      }
+      
+      .bp-perforation {
+        display: none !important;
+      }
+      
+      .bp-footer {
+        margin: 15px 15px 10px 0 !important;
+        font-size: 0.9em !important;
+      }
+    }
+    
+    @media (max-width: 400px) {
+      .boarding-pass {
+        margin: 15px 5px !important;
+        min-height: 350px !important;
+      }
+      
+      .bp-header {
+        font-size: 0.9rem !important;
+        padding: 12px 12px 6px 45px !important;
+      }
+      
+      .bp-header .plane {
+        font-size: 1.8em !important;
+        left: 20px !important;
+      }
+      
+      .bp-content {
+        padding: 20px 0 !important;
+        gap: 15px !important;
+      }
+      
+      .bp-info-left, .bp-info-right {
+        padding: 0 15px !important;
+        font-size: 0.85em !important;
+        gap: 15px !important;
+      }
+      
+      .bp-left-col {
+        width: 50px !important;
+      }
+      
+      .bp-left-col span {
+        font-size: 0.9em !important;
+      }
+      
+      .bp-btn {
+        padding: 10px 20px !important;
+        font-size: 0.9rem !important;
+      }
+      
+      .bp-emoji-bg {
+        font-size: 2.5em !important;
+      }
+    }
   </style>
 </head>
 <body>

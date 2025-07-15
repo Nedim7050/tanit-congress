@@ -520,6 +520,13 @@
           padding: 0.3em 0.8em !important;
         }
         
+        /* Masquer l'overlay sur mobile */
+        @media (max-width: 768px) {
+          .hero-img + div {
+            display: none !important;
+          }
+        }
+        
         /* Bouton plus petit */
         .btn-lg {
           padding: 0.5rem 1.5rem !important;
@@ -563,6 +570,77 @@
         .cc-photo {
           width: 100px !important;
           height: 100px !important;
+        }
+        
+        /* Optimisations committee mobile */
+        @media (max-width: 768px) {
+          #cc-team-slider {
+            flex-direction: column !important;
+            gap: 1rem !important;
+            min-height: auto !important;
+            padding: 1rem 0 !important;
+          }
+          
+          .cc-slide-card {
+            width: 100% !important;
+            max-width: 280px !important;
+            height: auto !important;
+            margin: 0 auto !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            padding: 1rem !important;
+            background: rgba(255,255,255,0.95) !important;
+            border-radius: 12px !important;
+          }
+          
+          .cc-photo {
+            width: 80px !important;
+            height: 80px !important;
+            margin: 0 1rem 0 0 !important;
+            flex-shrink: 0 !important;
+          }
+          
+          .cc-desc {
+            opacity: 1 !important;
+            transform: none !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            text-align: left !important;
+            min-width: auto !important;
+            min-height: auto !important;
+            max-width: none !important;
+          }
+          
+          /* Garder l'animation GSAP mais optimiser pour mobile */
+          .cc-slide-card {
+            /* Garder les animations GSAP */
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .cc-slide-card {
+            max-width: 240px !important;
+            padding: 0.8rem !important;
+          }
+          
+          .cc-photo {
+            width: 60px !important;
+            height: 60px !important;
+            margin: 0 0.8rem 0 0 !important;
+          }
+          
+          .cc-desc {
+            font-size: 0.9rem !important;
+          }
+          
+          .cc-desc span:first-child {
+            font-size: 0.9rem !important;
+          }
+          
+          .cc-desc span:last-child {
+            font-size: 0.8rem !important;
+          }
         }
         
         /* Testimonials plus compactes */
