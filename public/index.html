@@ -520,10 +520,24 @@
           padding: 0.3em 0.8em !important;
         }
         
-        /* Masquer l'overlay sur mobile */
+        /* Afficher l'overlay normalement sous la photo sur mobile */
         @media (max-width: 768px) {
           .hero-img + div {
-            display: none !important;
+            position: static !important;
+            transform: none !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            margin-top: 1rem !important;
+            text-align: center !important;
+          }
+          
+          .hero-img + div p {
+            display: inline-block !important;
+            margin-bottom: 1rem !important;
+          }
+          
+          .hero-img + div .btn {
+            display: inline-block !important;
           }
         }
         
@@ -572,31 +586,33 @@
           height: 100px !important;
         }
         
-        /* Optimisations committee mobile */
+        /* Optimisations committee mobile - garder animation GSAP en vertical */
         @media (max-width: 768px) {
           #cc-team-slider {
             flex-direction: column !important;
-            gap: 1rem !important;
+            gap: 1.5rem !important;
             min-height: auto !important;
             padding: 1rem 0 !important;
+            align-items: center !important;
           }
           
           .cc-slide-card {
             width: 100% !important;
-            max-width: 280px !important;
+            max-width: 320px !important;
             height: auto !important;
             margin: 0 auto !important;
-            flex-direction: row !important;
+            flex-direction: column !important;
             align-items: center !important;
-            padding: 1rem !important;
+            padding: 1.5rem !important;
             background: rgba(255,255,255,0.95) !important;
-            border-radius: 12px !important;
+            border-radius: 16px !important;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08) !important;
           }
           
           .cc-photo {
-            width: 80px !important;
-            height: 80px !important;
-            margin: 0 1rem 0 0 !important;
+            width: 100px !important;
+            height: 100px !important;
+            margin: 0 0 1rem 0 !important;
             flex-shrink: 0 !important;
           }
           
@@ -606,15 +622,16 @@
             background: transparent !important;
             box-shadow: none !important;
             padding: 0 !important;
-            text-align: left !important;
+            text-align: center !important;
             min-width: auto !important;
             min-height: auto !important;
             max-width: none !important;
+            font-size: 1rem !important;
           }
           
-          /* Garder l'animation GSAP mais optimiser pour mobile */
+          /* Garder l'animation GSAP en version verticale */
           .cc-slide-card {
-            /* Garder les animations GSAP */
+            /* Les animations GSAP restent actives */
           }
         }
         

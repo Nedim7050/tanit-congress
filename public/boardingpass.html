@@ -82,6 +82,8 @@
       border-radius: 36px 36px 0 0;
       box-shadow: 0 2px 12px rgba(0,147,233,0.07);
       overflow: hidden;
+      word-wrap: break-word;
+      white-space: normal;
     }
     .bp-header::before {
       content: '';
@@ -297,7 +299,12 @@
       }
     }
     @media (max-width: 700px) {
-      .bp-header { font-size: 1.1rem; padding: 18px 18px 10px 60px; }
+      .bp-header { 
+        font-size: 1.1rem; 
+        padding: 18px 18px 10px 60px; 
+        word-wrap: break-word;
+        white-space: normal;
+      }
       .bp-info-left, .bp-info-right { min-width: 120px; font-size: 0.98em; }
       .bp-center { width: 100px; }
       .bp-emoji-bg { font-size: 4.5em; }
@@ -315,6 +322,9 @@
         font-size: 1rem !important;
         padding: 15px 15px 8px 50px !important;
         letter-spacing: 1.5px !important;
+        word-wrap: break-word !important;
+        white-space: normal !important;
+        line-height: 1.2 !important;
       }
       
       .bp-header .plane {
@@ -403,6 +413,9 @@
       .bp-header {
         font-size: 0.9rem !important;
         padding: 12px 12px 6px 45px !important;
+        word-wrap: break-word !important;
+        white-space: normal !important;
+        line-height: 1.1 !important;
       }
       
       .bp-header .plane {
@@ -520,11 +533,45 @@
     // PDF Download
     document.getElementById('downloadBtn').addEventListener('click', function() {
       const ticket = document.getElementById('bp-ticket');
-      html2canvas(ticket, {backgroundColor: null, scale: 2}).then(canvas => {
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new window.jspdf.jsPDF({orientation: 'landscape', unit: 'pt', format: [ticket.offsetWidth, ticket.offsetHeight]});
-        pdf.addImage(imgData, 'PNG', 0, 0, ticket.offsetWidth, ticket.offsetHeight);
-        pdf.save('boarding-pass-tanit.pdf');
+      const loadingText = this.innerHTML;
+      this.innerHTML = '⏳ Génération...';
+      this.disabled = true;
+      
+      html2canvas(ticket, {
+        backgroundColor: '#ffffff',
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        width: ticket.offsetWidth,
+        height: ticket.offsetHeight
+      }).then(canvas => {
+        try {
+          const imgData = canvas.toDataURL('image/png', 1.0);
+          const pdf = new window.jspdf.jsPDF({
+            orientation: 'landscape', 
+            unit: 'pt', 
+            format: [canvas.width * 0.75, canvas.height * 0.75]
+          });
+          
+          const imgWidth = pdf.internal.pageSize.getWidth();
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+          
+          pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+          pdf.save('boarding-pass-tanit.pdf');
+          
+          this.innerHTML = loadingText;
+          this.disabled = false;
+        } catch (error) {
+          console.error('Erreur PDF:', error);
+          alert('Erreur lors de la génération du PDF. Veuillez réessayer.');
+          this.innerHTML = loadingText;
+          this.disabled = false;
+        }
+      }).catch(error => {
+        console.error('Erreur canvas:', error);
+        alert('Erreur lors de la génération. Veuillez réessayer.');
+        this.innerHTML = loadingText;
+        this.disabled = false;
       });
     });
   </script>
