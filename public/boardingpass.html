@@ -326,7 +326,7 @@
         <div class="bp-info-left">
           <div><span class="bp-label">FLIGHT</span><span class="bp-value">TANIT</span></div>
           <div class="bp-row"><span class="bp-label">ROW</span><span class="bp-value">3.0</span></div>
-          <div><span class="bp-label">FROM</span><span class="bp-value" id="nationality">-</span></div>
+          <div><span class="bp-label">FROM</span><span class="bp-value" id="country">-</span></div>
           <div><span class="bp-label">DATE</span><span class="bp-value">August</span></div>
         </div>
         <div class="bp-center">
@@ -360,7 +360,7 @@
     document.addEventListener('DOMContentLoaded', function() {
       // Afficher les données du passager
       document.getElementById('name').textContent = decodeParam(urlParams.get('name'));
-      document.getElementById('nationality').textContent = decodeParam(urlParams.get('nationality'));
+      document.getElementById('country').textContent = decodeParam(urlParams.get('country'));
       document.getElementById('dob').textContent = decodeParam(urlParams.get('dob'));
       document.getElementById('phone').textContent = decodeParam(urlParams.get('phone'));
       
@@ -374,7 +374,7 @@
       // Debug: afficher les paramètres dans la console
       console.log('Paramètres reçus:', {
         name: urlParams.get('name'),
-        nationality: urlParams.get('nationality'),
+        country: urlParams.get('country'),
         dob: urlParams.get('dob'),
         phone: urlParams.get('phone'),
         ticketNumber: urlParams.get('ticketNumber')

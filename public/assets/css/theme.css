@@ -8245,11 +8245,6 @@ textarea.form-control-lg {
   margin-left: -1.8rem !important;
 }
 
-.mx-n5 {
-  margin-right: -2.5rem !important;
-  margin-left: -2.5rem !important;
-}
-
 .mx-n6 {
   margin-right: -3rem !important;
   margin-left: -3rem !important;
@@ -18864,6 +18859,13 @@ iframe {
 .hero-img {
   width: 105%;
   margin-left: -5rem;
+  filter: drop-shadow(0 8px 32px rgba(58,80,107,0.18));
+  border-radius: 18px;
+  background: transparent;
+  transition: transform 0.5s, box-shadow 0.5s;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
 }
 @media (min-width: 768px) and (max-width: 991.98px) {
   .hero-img {
