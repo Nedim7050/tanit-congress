@@ -69,7 +69,7 @@
               </svg>
               <div style="position:relative; z-index:1; display:inline-block;">
                 <span style="display:block; font-family:'Dancing Script',cursive; font-size:2.1rem; color:#2d97cb; font-weight:400; letter-spacing:1px; margin-bottom:0.2em;">Welcome to</span>
-                <span style="display:inline-flex; align-items:center;">
+                <span style="display:inline-flex; align-items:center;" class="hero-title">
                   <span style="font-family: 'TAN - HARMONI', 'Montserrat', Arial, sans-serif; font-size: 5.7rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2.5px; color: #092e39; text-shadow: 0 4px 24px rgba(45,151,203,0.13), 0 1px 0 #fff; padding:0 0.2em;">TANIT 2K25</span>
                   <!-- Petit avion SVG -->
                   <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-left: 0.5em; margin-bottom:0.2em;">
@@ -474,6 +474,117 @@
       /* Si animation underline ou background, override aussi ici */
       .navbar-nav .nav-link::after {
         background: #2d97cb !important;
+      }
+      
+      /* Responsive mobile optimisations */
+      @media (max-width: 768px) {
+        /* Titre plus petit sur mobile */
+        .hero-title {
+          font-size: 2.5rem !important;
+          letter-spacing: 1.5px !important;
+        }
+        
+        /* Welcome to plus petit */
+        .hero-title span:first-child {
+          font-size: 1.5rem !important;
+        }
+        
+        /* Image hero responsive */
+        .hero-img {
+          max-width: 100% !important;
+          min-width: 280px !important;
+        }
+        
+        /* Plus d'espace pour la navbar */
+        section {
+          padding-top: 7rem !important;
+        }
+        
+        /* Masquer les shapes SVG sur mobile */
+        .hero-title svg {
+          display: none !important;
+        }
+        
+        /* Navbar plus compacte */
+        .navbar-brand img {
+          height: 48px !important;
+        }
+        
+        .navbar-title {
+          font-size: 1.5rem !important;
+        }
+        
+        /* Texte overlay plus petit */
+        .fw-medium {
+          font-size: 1rem !important;
+          padding: 0.3em 0.8em !important;
+        }
+        
+        /* Bouton plus petit */
+        .btn-lg {
+          padding: 0.5rem 1.5rem !important;
+          font-size: 1rem !important;
+        }
+      }
+      
+      @media (max-width: 480px) {
+        /* Encore plus petit pour très petits écrans */
+        .hero-title {
+          font-size: 2rem !important;
+        }
+        
+        .hero-title span:first-child {
+          font-size: 1.2rem !important;
+        }
+        
+        .navbar-brand img {
+          height: 40px !important;
+        }
+        
+        .navbar-title {
+          font-size: 1.2rem !important;
+        }
+        
+        /* Optimisations pour les sections */
+        .activity-card {
+          margin-bottom: 1rem !important;
+        }
+        
+        .activity-card img {
+          height: 120px !important;
+        }
+        
+        /* Committee slider plus petit */
+        .cc-slide-card {
+          width: 140px !important;
+          height: 200px !important;
+        }
+        
+        .cc-photo {
+          width: 100px !important;
+          height: 100px !important;
+        }
+        
+        /* Testimonials plus compactes */
+        .carousel-item .card {
+          margin: 0 10px !important;
+        }
+        
+        /* Footer plus compact */
+        footer {
+          padding: 1rem 0 0.5rem 0 !important;
+        }
+      }
+      
+      /* Optimisations pour tablettes */
+      @media (max-width: 1024px) and (min-width: 769px) {
+        .hero-title {
+          font-size: 4rem !important;
+        }
+        
+        .hero-img {
+          max-width: 700px !important;
+        }
       }
     </style>
   </body>
