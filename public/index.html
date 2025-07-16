@@ -24,6 +24,75 @@
     <!--    Stylesheets-->
     <!-- ===============================================-->
     <link href="assets/css/theme.css" rel="stylesheet" />
+    
+    <!-- CSS critique pour mobile - chargement immédiat -->
+    <style>
+      /* Styles critiques pour éviter le flash mobile */
+      @media (max-width: 768px) {
+        .hero-title span {
+          font-size: 2.5rem !important;
+          letter-spacing: 1.5px !important;
+        }
+        .hero-title span:first-child {
+          font-size: 1.5rem !important;
+        }
+        .navbar-brand img {
+          height: 48px !important;
+        }
+        .navbar-title {
+          font-size: 1.5rem !important;
+        }
+        .hero-img {
+          max-width: 100% !important;
+          min-width: 280px !important;
+        }
+        .fw-medium {
+          font-size: 1rem !important;
+          padding: 0.3em 0.8em !important;
+        }
+        .btn-lg {
+          padding: 0.5rem 1.5rem !important;
+          font-size: 1rem !important;
+        }
+        #cc-team-slider {
+          flex-direction: column !important;
+          gap: 1.5rem !important;
+          min-height: auto !important;
+          padding: 1rem 0 !important;
+          align-items: center !important;
+        }
+        .cc-slide-card {
+          width: 100% !important;
+          max-width: 320px !important;
+          height: auto !important;
+          margin: 0 auto !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          padding: 1.5rem !important;
+          background: rgba(255,255,255,0.95) !important;
+          border-radius: 16px !important;
+          box-shadow: 0 4px 16px rgba(0,0,0,0.08) !important;
+        }
+        .cc-photo {
+          width: 100px !important;
+          height: 100px !important;
+          margin: 0 0 1rem 0 !important;
+          flex-shrink: 0 !important;
+        }
+        .cc-desc {
+          opacity: 1 !important;
+          transform: none !important;
+          background: transparent !important;
+          box-shadow: none !important;
+          padding: 0 !important;
+          text-align: center !important;
+          min-width: auto !important;
+          min-height: auto !important;
+          max-width: none !important;
+          font-size: 1rem !important;
+        }
+      }
+    </style>
 
   </head>
 
@@ -672,38 +741,21 @@
         }
       }
       
-      /* Fix pour éviter le flash de la version desktop sur mobile */
+      /* Optimisations supplémentaires pour mobile */
       @media (max-width: 768px) {
-        .hero-title span {
-          font-size: 2.5rem !important;
-          letter-spacing: 1.5px !important;
-        }
-        
-        .hero-title span:first-child {
-          font-size: 1.5rem !important;
-        }
-        
-        .navbar-brand img {
-          height: 48px !important;
-        }
-        
-        .navbar-title {
-          font-size: 1.5rem !important;
-        }
-        
+        /* Amélioration des performances */
         .hero-img {
-          max-width: 100% !important;
-          min-width: 280px !important;
+          will-change: transform;
         }
         
-        .fw-medium {
-          font-size: 1rem !important;
-          padding: 0.3em 0.8em !important;
+        /* Optimisation des animations */
+        .card-hover-anim {
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
-        .btn-lg {
-          padding: 0.5rem 1.5rem !important;
-          font-size: 1rem !important;
+        /* Réduction des ombres sur mobile pour les performances */
+        .shadow {
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
         }
       }
     </style>
