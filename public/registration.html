@@ -567,7 +567,7 @@
           <div class="section-card">
             <h2><span class="step">⑥</span> <span class="icon">📄</span> Terms & Conditions</h2>
             <p>
-              • I understand the total conference fee is 120 EUR/USD per night.<br>
+              • I understand the total conference fee is <strong>120 EUR/USD per night</strong>.<br>
               • I accept the 100% cancellation fee if I cancel.<br>
               • I agree to pay +50 EUR/USD per night if I choose a single room.<br>
               • I confirm my information is accurate and I will comply with the rules.<br>
@@ -863,14 +863,33 @@
     const countrySelect = document.getElementById('country-select');
     const feesText = document.getElementById('fees-text');
     const roomUpgradeYesLabel = document.getElementById('room-upgrade-yes-label');
+    const termsSection = document.querySelector('.section-card:last-of-type p');
     if (countrySelect && feesText && roomUpgradeYesLabel) {
       countrySelect.addEventListener('change', function() {
         if (this.value === 'Tunisia') {
-          feesText.innerHTML = "The participation fee is <strong>100 dinars</strong>.";
+          feesText.innerHTML = "The participation fee is <strong>100 dinars per night</strong>.";
           roomUpgradeYesLabel.innerHTML = '<input type="radio" name="Room Upgrade" value="Yes"> Yes (+50 dinars per night)';
+          if (termsSection) {
+            termsSection.innerHTML = `
+              • I understand the total conference fee is <strong>100 dinars per night</strong>.<br>
+              • I accept the 100% cancellation fee if I cancel.<br>
+              • I agree to pay +50 dinars per night if I choose a single room.<br>
+              • I confirm my information is accurate and I will comply with the rules.<br>
+              • No refunds for no-shows or late cancellations.
+            `;
+          }
         } else {
           feesText.innerHTML = "The participation fee is <strong>120 EUR/USD</strong>.";
           roomUpgradeYesLabel.innerHTML = '<input type="radio" name="Room Upgrade" value="Yes"> Yes (+50 EUR/USD per night)';
+          if (termsSection) {
+            termsSection.innerHTML = `
+              • I understand the total conference fee is <strong>120 EUR/USD per night</strong>.<br>
+              • I accept the 100% cancellation fee if I cancel.<br>
+              • I agree to pay +50 EUR/USD per night if I choose a single room.<br>
+              • I confirm my information is accurate and I will comply with the rules.<br>
+              • No refunds for no-shows or late cancellations.
+            `;
+          }
         }
       });
     }
