@@ -28,70 +28,32 @@
     <!-- CSS critique pour mobile - chargement immédiat -->
     <style>
       /* Styles critiques pour éviter le flash mobile */
+      html, body { scroll-behavior: smooth; }
       @media (max-width: 768px) {
-        .hero-title span {
-          font-size: 2.5rem !important;
-          letter-spacing: 1.5px !important;
-        }
-        .hero-title span:first-child {
-          font-size: 1.5rem !important;
-        }
-        .navbar-brand img {
-          height: 48px !important;
-        }
-        .navbar-title {
-          font-size: 1.5rem !important;
-        }
-        .hero-img {
-          max-width: 100% !important;
-          min-width: 280px !important;
-        }
-        .fw-medium {
-          font-size: 1rem !important;
-          padding: 0.3em 0.8em !important;
-        }
-        .btn-lg {
-          padding: 0.5rem 1.5rem !important;
-          font-size: 1rem !important;
-        }
-        #cc-team-slider {
-          flex-direction: column !important;
-          gap: 1.5rem !important;
-          min-height: auto !important;
-          padding: 1rem 0 !important;
-          align-items: center !important;
-        }
-        .cc-slide-card {
-          width: 100% !important;
-          max-width: 320px !important;
-          height: auto !important;
-          margin: 0 auto !important;
-          flex-direction: column !important;
-          align-items: center !important;
-          padding: 1.5rem !important;
-          background: rgba(255,255,255,0.95) !important;
-          border-radius: 16px !important;
-          box-shadow: 0 4px 16px rgba(0,0,0,0.08) !important;
-        }
-        .cc-photo {
-          width: 100px !important;
-          height: 100px !important;
-          margin: 0 0 1rem 0 !important;
-          flex-shrink: 0 !important;
-        }
-        .cc-desc {
-          opacity: 1 !important;
-          transform: none !important;
-          background: transparent !important;
-          box-shadow: none !important;
-          padding: 0 !important;
-          text-align: center !important;
-          min-width: auto !important;
-          min-height: auto !important;
-          max-width: none !important;
-          font-size: 1rem !important;
-        }
+        body { font-size: 15px !important; }
+        .hero-title span { font-size: 2.1rem !important; letter-spacing: 1.2px !important; }
+        .hero-title span:first-child { font-size: 1.1rem !important; }
+        .navbar-brand img { height: 44px !important; }
+        .navbar-title { font-size: 1.2rem !important; }
+        .hero-img { max-width: 100% !important; min-width: 220px !important; }
+        .fw-medium { font-size: 1rem !important; padding: 0.3em 0.8em !important; }
+        .btn-lg { padding: 0.5rem 1.2rem !important; font-size: 1rem !important; }
+        section { padding-top: 6rem !important; }
+        .hero-img-wrapper { min-width: 220px !important; }
+        .hero-caption-mobile { position: static !important; transform: none !important; width: 100% !important; max-width: 100% !important; margin-top: 1rem !important; text-align: center !important; }
+        .hero-caption-mobile p { margin-bottom: 1rem !important; }
+        .cc-slide-card { width: 100% !important; max-width: 320px !important; height: auto !important; margin: 0 auto !important; flex-direction: column !important; align-items: center !important; padding: 1.2rem !important; background: rgba(255,255,255,0.97) !important; border-radius: 16px !important; box-shadow: 0 4px 16px rgba(0,0,0,0.08) !important; }
+        .cc-photo { width: 90px !important; height: 90px !important; margin: 0 0 1rem 0 !important; flex-shrink: 0 !important; }
+        .cc-desc { opacity: 1 !important; transform: none !important; background: transparent !important; box-shadow: none !important; padding: 0 !important; text-align: center !important; min-width: auto !important; min-height: auto !important; max-width: none !important; font-size: 1rem !important; }
       }
+      /* Désactiver l'animation du slider CC Team sur mobile */
+      @media (max-width: 768px) {
+        #cc-team-slider { animation: none !important; }
+      }
+      /* Avion toujours derrière le contenu important */
+      #plane-bg-anim { z-index: 0 !important; pointer-events: none !important; }
+      /* Images lazy loading par défaut */
+      img { loading: lazy; }
     </style>
 
   </head>
@@ -440,13 +402,13 @@ Honor the privilege you have now ! It will give you a piece of yourself you didn
     <!-- ===============================================-->
     <!--    JavaScripts-->
     <!-- ===============================================-->
-    <script src="vendors/@popperjs/popper.min.js"></script>
-    <script src="vendors/bootstrap/bootstrap.min.js"></script>
-    <script src="vendors/is/is.min.js"></script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
-    <script src="vendors/fontawesome/all.min.js"></script>
-    <script src="assets/js/theme.js"></script>
-    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script src="vendors/@popperjs/popper.min.js" defer></script>
+    <script src="vendors/bootstrap/bootstrap.min.js" defer></script>
+    <script src="vendors/is/is.min.js" defer></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll" defer></script>
+    <script src="vendors/fontawesome/all.min.js" defer></script>
+    <script src="assets/js/theme.js" defer></script>
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js" defer></script>
     <script>
       AOS.init({
         duration: 1000,
@@ -542,6 +504,74 @@ Honor the privilege you have now ! It will give you a piece of yourself you didn
         requestAnimationFrame(animatePlane);
       });
     </script>
+    <script>
+// --- CC Team Slider : désactiver l'animation sur mobile ---
+function getCommitteeGroupSize() {
+  return window.innerWidth < 768 ? 3 : 4;
+}
+function initCommitteeSlider() {
+  const members = [
+    {src: 'assets/img/committee/1.jpg', desc: 'Ines Hamdoun : CCP'},
+    {src: 'assets/img/committee/2.jpg', desc: 'Rima Sandly : CCVP COM'},
+    {src: 'assets/img/committee/3.jpg', desc: 'Nour Tarchouna : CC COM'},
+    {src: 'assets/img/committee/4.jpg', desc: 'Ghofrane Mgherbi : CC COM'},
+    {src: 'assets/img/committee/5.jpg', desc: 'Farah Kharrat : CC COM'},
+    {src: 'assets/img/committee/6.jpg', desc: 'Wejden Wm : CC COM'},
+    {src: 'assets/img/committee/7.jpg', desc: 'Karim Chaabane : CCVP ER'},
+    {src: 'assets/img/committee/8.jpg', desc: 'Nada Ourabi : CC ER'},
+    {src: 'assets/img/committee/9.jpg', desc: 'Iyed Menzli : CC ER'},
+    {src: 'assets/img/committee/10.jpg', desc: 'Malek Nasri : CC ER'},
+    {src: 'assets/img/committee/11.jpg', desc: 'Moomen Chaouachi : CC ER'},
+    {src: 'assets/img/committee/13.jpg', desc: 'Tasnim Necib : CC DXP'},
+    {src: 'assets/img/committee/14.jpg', desc: 'Nedim Mejri : CC DXP'},
+    {src: 'assets/img/committee/15.jpg', desc: 'Amine Ben Attaya : CCVP LOG'},
+    {src: 'assets/img/committee/16.jpg', desc: 'Malek Boubakri : CC LOG'},
+    {src: 'assets/img/committee/17.jpg', desc: 'Med Ali Marzouk : CC LOG'},
+    {src: 'assets/img/committee/18.jpg', desc: 'Razan Laabidi : CC LOG'},
+    {src: 'assets/img/committee/19.jpg', desc: 'Khalil Ben Said : CC LOG'}
+  ];
+  let current = 0;
+  const slider = document.getElementById('cc-team-slider');
+  function showSlides(startIdx) {
+    slider.innerHTML = '';
+    const groupSize = getCommitteeGroupSize();
+    for (let i = 0; i < groupSize; i++) {
+      const idx = (startIdx + i) % members.length;
+      const member = members[idx];
+      const card = document.createElement('div');
+      card.className = 'cc-slide-card';
+      card.style.display = 'flex';
+      card.style.flexDirection = 'column';
+      card.style.alignItems = 'center';
+      card.style.justifyContent = 'flex-end';
+      card.style.width = window.innerWidth < 768 ? '100%' : '180px';
+      card.style.margin = '0 10px';
+      card.style.height = window.innerWidth < 768 ? 'auto' : '260px';
+      const [name, ...roleParts] = member.desc.split(':');
+      const role = roleParts.join(':').trim();
+      card.innerHTML = `
+        <img src="${member.src}" class="rounded-circle shadow cc-photo" style="width:${window.innerWidth < 768 ? '90px' : '150px'}; height:${window.innerWidth < 768 ? '90px' : '150px'}; object-fit:cover; margin-bottom:1rem; transition:box-shadow 0.3s; flex-shrink:0;" alt="${member.desc}" loading="lazy" onerror="this.src='assets/img/committee/1.jpg'" />
+        <div class="cc-desc" style="background:rgba(255,255,255,0.95); color:#222; border-radius:18px; padding:0.7rem 1.2rem; margin-top:0.7rem; font-size:0.98rem; font-family:'Segoe UI', 'Roboto', Arial, sans-serif; font-weight:600; box-shadow:0 2px 12px 0 rgba(60,60,60,0.10); letter-spacing:0.01em; text-align:center; min-width:120px; min-height:48px; max-width:180px; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+          <span style="font-weight:700; font-size:0.98rem; color:#222; word-break:break-word; display:block; white-space:nowrap;">${name.trim()}</span>
+          <span style="font-weight:500; font-size:0.88rem; color:#3a506b; margin-top:8px; word-break:break-word; display:block;">${role}</span>
+        </div>
+      `;
+      slider.appendChild(card);
+    }
+  }
+  showSlides(current);
+  // Animation uniquement sur desktop
+  if (window.ccSliderInterval) clearInterval(window.ccSliderInterval);
+  if (window.innerWidth >= 768) {
+    window.ccSliderInterval = setInterval(() => {
+      current = (current + getCommitteeGroupSize()) % members.length;
+      showSlides(current);
+    }, 3500);
+  }
+}
+window.addEventListener('DOMContentLoaded', initCommitteeSlider);
+window.addEventListener('resize', initCommitteeSlider);
+</script>
     <script>
 // Animation avion sinusoidale toujours visible (fixed, centré viewport, optimisée mobile, un seul avion)
 (function() {
