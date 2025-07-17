@@ -317,7 +317,7 @@
 </head>
 <body>
   <div class="airline-header">
-    <img src="assets/img/logo tanit.png" alt="Tanit Airlines Logo" />
+    <img src="https://res.cloudinary.com/dfgycmek8/image/upload/v1752790436/logo_tanit_jetfns.jpg" alt="Tanit Airlines Logo" />
     <h1>Tanit Airlines – Congress Registration</h1>
   </div>
   <div class="boarding-pass">
@@ -555,10 +555,10 @@
           <div class="section-card">
             <h2><span class="step">⑤</span> <span class="icon">💳</span> Congress Fees & Room</h2>
 
-            <p id="fees-text">The participation fee is <strong>120 EUR/USD</strong>.</p>
+            <p id="fees-text" style="display: none;">The participation fee is <strong>120 EUR/USD</strong>.</p>
 
             <label>Would you like to upgrade to a single room? *</label>
-            <div class="radio-group" id="room-upgrade-group">
+            <div class="radio-group" id="room-upgrade-group" style="display: none;">
               <label><input type="radio" name="Room Upgrade" value="No" required> No (Shared accommodation)</label>
               <label id="room-upgrade-yes-label"><input type="radio" name="Room Upgrade" value="Yes"> Yes (+50 EUR/USD)</label>
             </div>
@@ -566,7 +566,7 @@
           <!-- Step 6: Terms & Conditions -->
           <div class="section-card">
             <h2><span class="step">⑥</span> <span class="icon">📄</span> Terms & Conditions</h2>
-            <p>
+            <p id="terms-text" style="display: none;">
               • I understand the total conference fee is <strong>120 EUR/USD per night</strong>.<br>
               • I accept the 100% cancellation fee if I cancel.<br>
               • I agree to pay +50 EUR/USD per night if I choose a single room.<br>
@@ -862,34 +862,45 @@
     // Dynamique fees selon le pays
     const countrySelect = document.getElementById('country-select');
     const feesText = document.getElementById('fees-text');
+    const roomUpgradeGroup = document.getElementById('room-upgrade-group');
     const roomUpgradeYesLabel = document.getElementById('room-upgrade-yes-label');
-    const termsSection = document.querySelector('.section-card:last-of-type p');
-    if (countrySelect && feesText && roomUpgradeYesLabel) {
+    const termsText = document.getElementById('terms-text');
+
+    if (countrySelect && feesText && roomUpgradeGroup && termsText) {
       countrySelect.addEventListener('change', function() {
-        if (this.value === 'Tunisia') {
+        if (this.value === '') {
+          // Aucun pays sélectionné - masquer les prix
+          feesText.style.display = 'none';
+          roomUpgradeGroup.style.display = 'none';
+          termsText.style.display = 'none';
+        } else if (this.value === 'Tunisia') {
+          // Tunisie sélectionnée - afficher en dinars
           feesText.innerHTML = "The participation fee is <strong>100 dinars per night</strong>.";
+          feesText.style.display = 'block';
           roomUpgradeYesLabel.innerHTML = '<input type="radio" name="Room Upgrade" value="Yes"> Yes (+50 dinars per night)';
-          if (termsSection) {
-            termsSection.innerHTML = `
-              • I understand the total conference fee is <strong>100 dinars per night</strong>.<br>
-              • I accept the 100% cancellation fee if I cancel.<br>
-              • I agree to pay +50 dinars per night if I choose a single room.<br>
-              • I confirm my information is accurate and I will comply with the rules.<br>
-              • No refunds for no-shows or late cancellations.
-            `;
-          }
+          roomUpgradeGroup.style.display = 'block';
+          termsText.innerHTML = `
+            • I understand the total conference fee is <strong>100 dinars per night</strong>.<br>
+            • I accept the 100% cancellation fee if I cancel.<br>
+            • I agree to pay +50 dinars per night if I choose a single room.<br>
+            • I confirm my information is accurate and I will comply with the rules.<br>
+            • No refunds for no-shows or late cancellations.
+          `;
+          termsText.style.display = 'block';
         } else {
+          // Autre pays sélectionné - afficher en EUR/USD
           feesText.innerHTML = "The participation fee is <strong>120 EUR/USD per night</strong>.";
+          feesText.style.display = 'block';
           roomUpgradeYesLabel.innerHTML = '<input type="radio" name="Room Upgrade" value="Yes"> Yes (+50 EUR/USD per night)';
-          if (termsSection) {
-            termsSection.innerHTML = `
-              • I understand the total conference fee is <strong>120 EUR/USD per night</strong>.<br>
-              • I accept the 100% cancellation fee if I cancel.<br>
-              • I agree to pay +50 EUR/USD per night if I choose a single room.<br>
-              • I confirm my information is accurate and I will comply with the rules.<br>
-              • No refunds for no-shows or late cancellations.
-            `;
-          }
+          roomUpgradeGroup.style.display = 'block';
+          termsText.innerHTML = `
+            • I understand the total conference fee is <strong>120 EUR/USD per night</strong>.<br>
+            • I accept the 100% cancellation fee if I cancel.<br>
+            • I agree to pay +50 EUR/USD per night if I choose a single room.<br>
+            • I confirm my information is accurate and I will comply with the rules.<br>
+            • No refunds for no-shows or late cancellations.
+          `;
+          termsText.style.display = 'block';
         }
       });
     }
