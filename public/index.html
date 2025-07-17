@@ -361,7 +361,7 @@
                         <img src="assets/img/testimonial/tm3.jpg" class="rounded-circle me-3" width="60" height="60" alt="tm3" loading="lazy" />
                         <div>
                           <h5 class="mb-0">Wissal Kader</h5>
-                          <small class="text-muted">AIESEC Carthage Alumni</small>
+                          <small class="text-muted">AIESEC Carthage Alumni MCVP BD AIT</small>
                         </div>
                       </div>
                       <p class="mb-0">"Privilege isn’t just about what we have, it’s about what we do with it. 
@@ -509,56 +509,38 @@ Honor the privilege you have now ! It will give you a piece of yourself you didn
 function getCommitteeGroupSize() {
   return window.innerWidth < 768 ? 3 : 4;
 }
-function initCommitteeSlider() {
-  const members = [
-    {src: 'assets/img/committee/1.jpg', desc: 'Ines Hamdoun : CCP'},
-    {src: 'assets/img/committee/2.jpg', desc: 'Rima Sandly : CCVP COM'},
-    {src: 'assets/img/committee/3.jpg', desc: 'Nour Tarchouna : CC COM'},
-    {src: 'assets/img/committee/4.jpg', desc: 'Ghofrane Mgherbi : CC COM'},
-    {src: 'assets/img/committee/5.jpg', desc: 'Farah Kharrat : CC COM'},
-    {src: 'assets/img/committee/6.jpg', desc: 'Wejden Wm : CC COM'},
-    {src: 'assets/img/committee/7.jpg', desc: 'Karim Chaabane : CCVP ER'},
-    {src: 'assets/img/committee/8.jpg', desc: 'Nada Ourabi : CC ER'},
-    {src: 'assets/img/committee/9.jpg', desc: 'Iyed Menzli : CC ER'},
-    {src: 'assets/img/committee/10.jpg', desc: 'Malek Nasri : CC ER'},
-    {src: 'assets/img/committee/11.jpg', desc: 'Moomen Chaouachi : CC ER'},
-    {src: 'assets/img/committee/13.jpg', desc: 'Tasnim Necib : CC DXP'},
-    {src: 'assets/img/committee/14.jpg', desc: 'Nedim Mejri : CC DXP'},
-    {src: 'assets/img/committee/15.jpg', desc: 'Amine Ben Attaya : CCVP LOG'},
-    {src: 'assets/img/committee/16.jpg', desc: 'Malek Boubakri : CC LOG'},
-    {src: 'assets/img/committee/17.jpg', desc: 'Med Ali Marzouk : CC LOG'},
-    {src: 'assets/img/committee/18.jpg', desc: 'Razan Laabidi : CC LOG'},
-    {src: 'assets/img/committee/19.jpg', desc: 'Khalil Ben Said : CC LOG'}
-  ];
-  let current = 0;
-  const slider = document.getElementById('cc-team-slider');
-  function showSlides(startIdx) {
+function safeInitCommitteeSlider() {
+  try {
+    initCommitteeSlider();
+    // Masquer le message d'erreur si tout va bien
+    var err = document.getElementById('cc-team-error');
+    if (err) err.style.display = 'none';
+  } catch (e) {
+    // Afficher un message d'erreur visible
+    var slider = document.getElementById('cc-team-slider');
     slider.innerHTML = '';
-    const groupSize = getCommitteeGroupSize();
-    for (let i = 0; i < groupSize; i++) {
-      const idx = (startIdx + i) % members.length;
-      const member = members[idx];
-      const card = document.createElement('div');
-      card.className = 'cc-slide-card';
-      card.innerHTML = `
-        <img src="${member.src}" class="rounded-circle shadow cc-photo" style="width:${window.innerWidth < 768 ? '90px' : '150px'}; height:${window.innerWidth < 768 ? '90px' : '150px'}; object-fit:cover; margin-bottom:1rem; transition:box-shadow 0.3s; flex-shrink:0;" alt="${member.desc}" loading="lazy" onerror="this.src='assets/img/committee/1.jpg'" />
-        <div class="cc-desc">
-           <span class="cc-name">${member.desc.split(':')[0].trim()}</span>
-           <span class="cc-role">${member.desc.split(':').slice(1).join(':').trim()}</span>
-        </div>
-      `;
-      slider.appendChild(card);
+    var err = document.getElementById('cc-team-error');
+    if (!err) {
+      err = document.createElement('div');
+      err.id = 'cc-team-error';
+      err.style.color = '#d32f2f';
+      err.style.background = '#fff8f8';
+      err.style.border = '1.5px solid #f8d7da';
+      err.style.borderRadius = '10px';
+      err.style.padding = '1.2em';
+      err.style.margin = '1em auto';
+      err.style.textAlign = 'center';
+      err.style.fontSize = '1.1em';
+      err.textContent = "Oups ! Le comité ne peut pas s'afficher sur ce navigateur. Essayez de rafraîchir la page.";
+      slider.parentNode.appendChild(err);
+    } else {
+      err.style.display = 'block';
     }
+    console.error('Erreur CC Team:', e);
   }
-  showSlides(current);
-  if (window.ccSliderInterval) clearInterval(window.ccSliderInterval);
-  window.ccSliderInterval = setInterval(() => {
-    current = (current + getCommitteeGroupSize()) % members.length;
-    showSlides(current);
-  }, 3500);
 }
-window.addEventListener('DOMContentLoaded', initCommitteeSlider);
-window.addEventListener('resize', initCommitteeSlider);
+document.addEventListener('DOMContentLoaded', safeInitCommitteeSlider);
+window.addEventListener('resize', safeInitCommitteeSlider);
 </script>
     <script>
 // Animation avion sinusoïdale droite -> gauche sur toutes tailles d'écran, z-index élevé
