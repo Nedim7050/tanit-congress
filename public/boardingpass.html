@@ -586,40 +586,20 @@
           const imgData = canvas.toDataURL('image/png', isMobile ? 0.7 : 1.0);
           
           if (isMobile) {
-            // Méthode optimisée pour mobile
-            try {
-              // Créer un blob et utiliser l'API de téléchargement
-              const byteString = atob(imgData.split(',')[1]);
-              const mimeString = imgData.split(',')[0].split(':')[1].split(';')[0];
-              const ab = new ArrayBuffer(byteString.length);
-              const ia = new Uint8Array(ab);
-              for (let i = 0; i < byteString.length; i++) {
-                ia[i] = byteString.charCodeAt(i);
-              }
-              const blob = new Blob([ab], { type: mimeString });
-              
-              // Utiliser l'API de téléchargement moderne
-              if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-                // Pour IE
-                window.navigator.msSaveOrOpenBlob(blob, 'boarding-pass-tanit.png');
-              } else {
-                // Pour les autres navigateurs
-                const url = window.URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = 'boarding-pass-tanit.png';
-                link.style.display = 'none';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                window.URL.revokeObjectURL(url);
-              }
-            } catch (e) {
-              console.error('Erreur téléchargement mobile:', e);
-              // Fallback : ouvrir dans un nouvel onglet
+            // iOS/Safari: download bloqué, ouvrir dans un nouvel onglet
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            if (isIOS) {
               const newWindow = window.open();
-              newWindow.document.write('<html><body><img src="' + imgData + '" style="width:100%; height:auto;" /></body></html>');
+              newWindow.document.write('<html><body style="margin:0;"><img src="' + imgData + '" style="width:100vw;max-width:100%;height:auto;display:block;" /></body></html>');
               newWindow.document.close();
+            } else {
+              // Android/Chrome: download direct
+              const link = document.createElement('a');
+              link.href = imgData;
+              link.download = 'boarding-pass-tanit.png';
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
             }
           } else {
             // Sur desktop, générer PDF
@@ -639,13 +619,11 @@
           this.innerHTML = loadingText;
           this.disabled = false;
         } catch (error) {
-          console.error('Erreur:', error);
           alert('Erreur lors de la génération. Veuillez réessayer.');
           this.innerHTML = loadingText;
           this.disabled = false;
         }
       }).catch(error => {
-        console.error('Erreur canvas:', error);
         alert('Erreur lors de la génération. Veuillez réessayer.');
         this.innerHTML = loadingText;
         this.disabled = false;
