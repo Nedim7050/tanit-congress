@@ -51,7 +51,7 @@
         #cc-team-slider { animation: none !important; }
       }
       /* Avion toujours derrière le contenu important */
-      #plane-bg-anim { z-index: 0 !important; pointer-events: none !important; }
+      #plane-bg-anim { z-index: 9999 !important; pointer-events: none !important; }
       /* Images lazy loading par défaut */
       img { loading: lazy; }
     </style>
@@ -505,7 +505,7 @@ Honor the privilege you have now ! It will give you a piece of yourself you didn
       });
     </script>
     <script>
-// --- CC Team Slider : désactiver l'animation sur mobile ---
+// --- CC Team Slider : animation automatique sur mobile (3 par 3) et desktop (4 par 4) ---
 function getCommitteeGroupSize() {
   return window.innerWidth < 768 ? 3 : 4;
 }
@@ -540,45 +540,30 @@ function initCommitteeSlider() {
       const member = members[idx];
       const card = document.createElement('div');
       card.className = 'cc-slide-card';
-      card.style.display = 'flex';
-      card.style.flexDirection = 'column';
-      card.style.alignItems = 'center';
-      card.style.justifyContent = 'flex-end';
-      card.style.width = window.innerWidth < 768 ? '100%' : '180px';
-      card.style.margin = '0 10px';
-      card.style.height = window.innerWidth < 768 ? 'auto' : '260px';
-      const [name, ...roleParts] = member.desc.split(':');
-      const role = roleParts.join(':').trim();
       card.innerHTML = `
         <img src="${member.src}" class="rounded-circle shadow cc-photo" style="width:${window.innerWidth < 768 ? '90px' : '150px'}; height:${window.innerWidth < 768 ? '90px' : '150px'}; object-fit:cover; margin-bottom:1rem; transition:box-shadow 0.3s; flex-shrink:0;" alt="${member.desc}" loading="lazy" onerror="this.src='assets/img/committee/1.jpg'" />
-        <div class="cc-desc" style="background:rgba(255,255,255,0.95); color:#222; border-radius:18px; padding:0.7rem 1.2rem; margin-top:0.7rem; font-size:0.98rem; font-family:'Segoe UI', 'Roboto', Arial, sans-serif; font-weight:600; box-shadow:0 2px 12px 0 rgba(60,60,60,0.10); letter-spacing:0.01em; text-align:center; min-width:120px; min-height:48px; max-width:180px; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-          <span style="font-weight:700; font-size:0.98rem; color:#222; word-break:break-word; display:block; white-space:nowrap;">${name.trim()}</span>
-          <span style="font-weight:500; font-size:0.88rem; color:#3a506b; margin-top:8px; word-break:break-word; display:block;">${role}</span>
+        <div class="cc-desc">
+           <span class="cc-name">${member.desc.split(':')[0].trim()}</span>
+           <span class="cc-role">${member.desc.split(':').slice(1).join(':').trim()}</span>
         </div>
       `;
       slider.appendChild(card);
     }
   }
   showSlides(current);
-  // Animation uniquement sur desktop
   if (window.ccSliderInterval) clearInterval(window.ccSliderInterval);
-  if (window.innerWidth >= 768) {
-    window.ccSliderInterval = setInterval(() => {
-      current = (current + getCommitteeGroupSize()) % members.length;
-      showSlides(current);
-    }, 3500);
-  }
+  window.ccSliderInterval = setInterval(() => {
+    current = (current + getCommitteeGroupSize()) % members.length;
+    showSlides(current);
+  }, 3500);
 }
 window.addEventListener('DOMContentLoaded', initCommitteeSlider);
 window.addEventListener('resize', initCommitteeSlider);
 </script>
     <script>
-// Animation avion sinusoidale toujours visible (fixed, centré viewport, optimisée mobile, un seul avion)
+// Animation avion sinusoïdale droite -> gauche sur toutes tailles d'écran, z-index élevé
 (function() {
   let planeAnimStarted = false;
-  function isMobileDevice() {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  }
   function animatePlaneSinusoidal() {
     const planeDiv = document.getElementById('plane-bg-anim');
     if (!planeDiv) return;
@@ -587,15 +572,8 @@ window.addEventListener('resize', initCommitteeSlider);
     }
     const planeWidth = 170;
     let start = null;
-    let lastFrame = 0;
     const duration = 18000;
     function animate(ts) {
-      // 30 FPS sur mobile/iOS
-      if (isMobileDevice() && ts - lastFrame < 33) {
-        requestAnimationFrame(animate);
-        return;
-      }
-      lastFrame = ts;
       if (!start) start = ts;
       let progress = (ts - start) % duration;
       let t = progress / duration;
@@ -840,6 +818,101 @@ window.addEventListener('resize', initCommitteeSlider);
         /* Réduction des ombres sur mobile pour les performances */
         .shadow {
           box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+        }
+      }
+      /* Animation avion mobile */
+      @media (max-width: 768px) {
+        #cc-team-slider {
+          gap: 2rem !important;
+        }
+        .cc-slide-card {
+          margin-right: 2rem !important;
+          margin-left: 0 !important;
+          background: none !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: flex-start !important;
+        }
+        .cc-desc {
+          background: #fff !important;
+          border-radius: 18px !important;
+          box-shadow: 0 8px 32px rgba(45,151,203,0.13), 0 1.5px 0 #e3f6fd inset !important;
+          padding: 1.2rem 1.5rem 1.1rem 1.5rem !important;
+          margin-top: 0.9rem !important;
+          text-align: center !important;
+          min-width: 180px !important;
+          max-width: 260px !important;
+          font-size: 1.13rem !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: center !important;
+          border: 2px solid #e3f6fd !important;
+        }
+        .cc-desc .cc-name {
+          font-weight: 700 !important;
+          font-size: 1.13rem !important;
+          color: #0a2540 !important;
+          margin-bottom: 0.18em !important;
+          letter-spacing: 0.01em !important;
+          white-space: nowrap !important;
+          font-family: 'Montserrat', Arial, sans-serif !important;
+        }
+        .cc-desc .cc-role {
+          font-weight: 500 !important;
+          font-size: 1.03rem !important;
+          color: #2d97cb !important;
+          margin-top: 0.18em !important;
+          white-space: normal !important;
+          font-family: 'Montserrat', Arial, sans-serif !important;
+        }
+      }
+      @media (min-width: 768px) {
+        #cc-team-slider {
+          gap: 2.8rem !important;
+        }
+        .cc-slide-card {
+          margin-right: 2.8rem !important;
+          margin-left: 0 !important;
+          background: none !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: flex-start !important;
+        }
+        .cc-desc {
+          background: #fff !important;
+          border-radius: 22px !important;
+          box-shadow: 0 12px 40px rgba(45,151,203,0.15), 0 2px 0 #e3f6fd inset !important;
+          padding: 1.4rem 2rem 1.2rem 2rem !important;
+          margin-top: 1.1rem !important;
+          text-align: center !important;
+          min-width: 200px !important;
+          max-width: 320px !important;
+          font-size: 1.18rem !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: center !important;
+          border: 2.5px solid #e3f6fd !important;
+        }
+        .cc-desc .cc-name {
+          font-weight: 700 !important;
+          font-size: 1.13rem !important;
+          color: #0a2540 !important;
+          margin-bottom: 0.15em !important;
+          letter-spacing: 0.01em !important;
+          white-space: nowrap !important;
+          font-family: 'Montserrat', Arial, sans-serif !important;
+        }
+        .cc-desc .cc-role {
+          font-weight: 500 !important;
+          font-size: 1.03rem !important;
+          color: #2d97cb !important;
+          margin-top: 0.18em !important;
+          white-space: normal !important;
+          font-family: 'Montserrat', Arial, sans-serif !important;
         }
       }
       /* Animation avion mobile */
