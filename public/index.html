@@ -130,11 +130,14 @@
           <div class="row align-items-center">
             <div class="col-lg-8 mx-auto">
               <!-- Vidéo (vid1) -->
-              <video id="tanit-video" autoplay loop playsinline muted controls poster="assets/img/about-poster.jpg" style="width: 100%; border-radius: 18px; box-shadow: 0 4px 24px rgba(58,80,107,0.08);">
-                <source src="assets/img/vid1.mp4" type="video/mp4">
-                <source src="assets/img/vid1.webm" type="video/webm">
-                Your browser does not support the video tag.
-              </video>
+              <div class="ratio ratio-16x9" style="width:100%; border-radius:18px; box-shadow:0 4px 24px rgba(58,80,107,0.08); overflow:hidden;">
+                <iframe src="https://player.vimeo.com/video/1093510114?h=9ef34a7725&autoplay=1&muted=1&title=0&byline=0&portrait=0" 
+                  style="width:100%; height:100%; border:0;" 
+                  allow="autoplay; fullscreen; picture-in-picture" 
+                  allowfullscreen 
+                  loading="lazy"
+                  title="TANIT Congress Video"></iframe>
+              </div>
               <div class="text-center text-lg-start mt-3">
                 <p class="lead" style="color: #3a506b;">TANIT is an international congress hosted by AIESEC Carthage, designed to empower delegates through connection, growth, and impactful learning. Get ready for a journey full of unforgettable memories and cultural vibes. The main objective is to help you become a real trainer, with skills that will benefit your AIESEC, personal, and professional life.</p>
               </div>
