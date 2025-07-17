@@ -543,45 +543,49 @@ Honor the privilege you have now ! It will give you a piece of yourself you didn
       });
     </script>
     <script>
-// Animation avion sinusoidale toujours visible (fixed, centré viewport, optimisée mobile)
-function isMobileDevice() {
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-}
-function animatePlaneSinusoidal() {
-  const planeDiv = document.getElementById('plane-bg-anim');
-  if (!planeDiv) return;
-  // Utiliser une image plus légère sur mobile si disponible
-  if (!planeDiv.innerHTML) {
-    const planeImgSrc = isMobileDevice() && 'assets/img/plane-emoji1.png' ? 'assets/img/plane-emoji1.png' : 'assets/img/plane-emoji.png';
-    planeDiv.innerHTML = `<img src="${planeImgSrc}" alt="plane" loading="lazy" />`;
+// Animation avion sinusoidale toujours visible (fixed, centré viewport, optimisée mobile, un seul avion)
+(function() {
+  let planeAnimStarted = false;
+  function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   }
-  const planeWidth = 170;
-  let start = null;
-  const duration = 18000; // 18 secondes
-  let lastFrame = 0;
-  function animate(ts) {
-    // Sur mobile, réduire la fréquence à 30 FPS
-    if (isMobileDevice() && ts - lastFrame < 33) {
-      requestAnimationFrame(animate);
-      return;
+  function animatePlaneSinusoidal() {
+    const planeDiv = document.getElementById('plane-bg-anim');
+    if (!planeDiv) return;
+    if (!planeDiv.innerHTML) {
+      planeDiv.innerHTML = '<img src="assets/img/plane-emoji.png" alt="plane" loading="lazy" />';
     }
-    lastFrame = ts;
-    if (!start) start = ts;
-    let progress = (ts - start) % duration;
-    let t = progress / duration;
-    let x = window.innerWidth + planeWidth - (window.innerWidth + planeWidth + planeWidth) * t;
-    let amplitude = window.innerHeight * 0.25; // 25% de la hauteur du viewport
-    let yBase = window.innerHeight * 0.5 - 40; // centré verticalement
-    let frequency = 2;
-    let wave = Math.sin(2 * Math.PI * frequency * t);
-    let y = yBase + amplitude * wave * 0.3; // amplitude réduite pour rester visible
-    planeDiv.style.transform = `translate(${x}px, ${y}px)`;
-    requestAnimationFrame(animate);
+    const planeWidth = 170;
+    let start = null;
+    let lastFrame = 0;
+    const duration = 18000;
+    function animate(ts) {
+      // 30 FPS sur mobile/iOS
+      if (isMobileDevice() && ts - lastFrame < 33) {
+        requestAnimationFrame(animate);
+        return;
+      }
+      lastFrame = ts;
+      if (!start) start = ts;
+      let progress = (ts - start) % duration;
+      let t = progress / duration;
+      let x = window.innerWidth + planeWidth - (window.innerWidth + planeWidth + planeWidth) * t;
+      let amplitude = window.innerHeight * 0.25;
+      let yBase = window.innerHeight * 0.5 - 40;
+      let frequency = 2;
+      let wave = Math.sin(2 * Math.PI * frequency * t);
+      let y = yBase + amplitude * wave * 0.3;
+      planeDiv.style.transform = `translate(${x}px, ${y}px)`;
+      requestAnimationFrame(animate);
+    }
+    if (!planeAnimStarted) {
+      planeAnimStarted = true;
+      requestAnimationFrame(animate);
+    }
   }
-  requestAnimationFrame(animate);
-}
-document.addEventListener('DOMContentLoaded', animatePlaneSinusoidal);
-window.addEventListener('resize', animatePlaneSinusoidal);
+  document.addEventListener('DOMContentLoaded', animatePlaneSinusoidal);
+  window.addEventListener('resize', animatePlaneSinusoidal);
+})();
 </script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
@@ -845,7 +849,7 @@ window.addEventListener('resize', animatePlaneSinusoidal);
           min-height: 48px !important;
           background: rgba(255,255,255,0.95) !important;
           border-radius: 16px !important;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.06) !important;
           text-align: center !important;
           margin: 0 auto !important;
           display: flex !important;

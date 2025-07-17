@@ -71,10 +71,11 @@
       line-height: 1;
     }
     .bp-header {
+      position: relative;
+      z-index: 10;
       background: linear-gradient(90deg, #2196f3 60%, #80d0c7 100%);
       color: #fff;
       padding: 28px 56px 18px 130px;
-      position: relative;
       font-family: 'Montserrat', Arial, sans-serif;
       font-size: 1.7rem;
       font-weight: 700;
@@ -88,6 +89,7 @@
       min-height: 80px;
       display: flex;
       align-items: center;
+      background-clip: padding-box;
     }
     .bp-header::before {
       content: '';
@@ -114,6 +116,7 @@
       transform: translateY(-50%);
       font-size: 2.7em;
       opacity: 0.97;
+      z-index: 1;
     }
     .bp-header .ticket-number {
       display: none;
@@ -476,6 +479,28 @@
         font-size: 2.5em !important;
       }
     }
+    .bp-header-title {
+      background: rgba(255,255,255,0.85);
+      color: #1976d2;
+      padding: 0.2em 0.7em;
+      border-radius: 12px;
+      margin-left: 1.5em;
+      font-size: 1.1em;
+      font-weight: 700;
+      z-index: 10;
+      position: relative;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    }
+    @media (max-width: 700px) {
+      .bp-header-title {
+        font-size: 1em;
+        padding: 0.15em 0.5em;
+        margin-left: 1em;
+      }
+    }
+    #plane-bg-anim {
+      z-index: 2 !important;
+    }
   </style>
 </head>
 <body>
@@ -489,7 +514,7 @@
     <div class="bp-emoji-bg">✈️</div>
     <div class="bp-header">
       <span class="plane">✈️</span>
-      BOARDING PASS
+      <span class="bp-header-title">BOARDING PASS</span>
       <span class="ticket-number" id="ticketNumber"></span>
     </div>
     <div class="bp-main">
@@ -589,6 +614,7 @@
             // iOS/Safari: download bloqué, ouvrir dans un nouvel onglet
             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
             if (isIOS) {
+              alert('Sur iPhone/iPad, le billet va s’ouvrir dans un nouvel onglet. Pour l’enregistrer, effectuez un appui long sur l’image puis "Ajouter aux Photos".');
               const newWindow = window.open();
               newWindow.document.write('<html><body style="margin:0;"><img src="' + imgData + '" style="width:100vw;max-width:100%;height:auto;display:block;" /></body></html>');
               newWindow.document.close();
