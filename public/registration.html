@@ -320,6 +320,9 @@
     <img src="https://res.cloudinary.com/dfgycmek8/image/upload/v1752790436/logo_tanit_jetfns.jpg" alt="Tanit Airlines Logo" />
     <h1>Tanit Airlines – Congress Registration</h1>
   </div>
+  <div id="total-fees-box" style="display:none; max-width: 600px; margin: 32px auto 0 auto; padding: 18px 32px; background: linear-gradient(90deg,#e0f7fa 60%,#b3e0ff 100%); color: #0077b6; border-radius: 18px; box-shadow: 0 4px 24px rgba(0,147,233,0.13); font-size: 1.35em; font-family: 'Baloo 2', 'Poppins', Arial, sans-serif; font-weight: 700; text-align: center; letter-spacing: 1px; border: 2.5px solid #0093e9;">
+    <!-- Dynamique JS -->
+  </div>
   <div class="boarding-pass">
     <form name="submit-to-google-sheet" id="registration-form" style="padding: 0 30px;">
       <div class="form-steps">
@@ -859,51 +862,89 @@
       }
     });
 
-    // Dynamique fees selon le pays
-    const countrySelect = document.getElementById('country-select');
-    const feesText = document.getElementById('fees-text');
-    const roomUpgradeGroup = document.getElementById('room-upgrade-group');
-    const roomUpgradeYesLabel = document.getElementById('room-upgrade-yes-label');
-    const termsText = document.getElementById('terms-text');
-
-    if (countrySelect && feesText && roomUpgradeGroup && termsText) {
-      countrySelect.addEventListener('change', function() {
-        if (this.value === '') {
-          // Aucun pays sélectionné - masquer les prix
-          feesText.style.display = 'none';
-          roomUpgradeGroup.style.display = 'none';
-          termsText.style.display = 'none';
-        } else if (this.value === 'Tunisia') {
-          // Tunisie sélectionnée - afficher en dinars
-          feesText.innerHTML = "The participation fee is <strong>100 dinars per night</strong>.";
+    // --- LOGIQUE D'AFFICHAGE DES FRAIS ET DU FORMULAIRE SELON LE TYPE ---
+    function getUrlParam(name) {
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name);
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      const type = getUrlParam('type');
+      const totalFeesBox = document.getElementById('total-fees-box');
+      const countrySelect = document.getElementById('country-select');
+      const feesText = document.getElementById('fees-text');
+      const roomUpgradeGroup = document.getElementById('room-upgrade-group');
+      const roomUpgradeYesLabel = document.getElementById('room-upgrade-yes-label');
+      const termsText = document.getElementById('terms-text');
+      // --- Pour Tunisians ---
+      if(type === 'tunisian') {
+        if(totalFeesBox) {
+          totalFeesBox.style.display = 'block';
+          totalFeesBox.innerHTML = 'Total Fees: <span style="color:#0a2540; font-size:1.2em;">200 DT</span> <span style="font-size:0.85em; color:#38525c;">(3 days (2 nights))</span>';
+        }
+        if(countrySelect) {
+          countrySelect.innerHTML = '<option value="Tunisia">Tunisia</option>';
+          countrySelect.value = 'Tunisia';
+          countrySelect.disabled = true;
+        }
+        if(feesText) {
+          feesText.innerHTML = 'The participation fee is <strong>100 dinars per night</strong>.';
           feesText.style.display = 'block';
-          roomUpgradeYesLabel.innerHTML = '<input type="radio" name="Room Upgrade" value="Yes"> Yes (+50 dinars per night)';
+        }
+        if(roomUpgradeYesLabel) {
+          roomUpgradeYesLabel.innerHTML = '<input type="radio" name="Room Upgrade" value="Yes"> Yes (+100 dinars for 2 nights)';
+        }
+        if(roomUpgradeGroup) {
           roomUpgradeGroup.style.display = 'block';
-          termsText.innerHTML = `
-            • I understand the total conference fee is <strong>100 dinars per night</strong>.<br>
-            • I accept the 100% cancellation fee if I cancel.<br>
-            • I agree to pay +50 dinars per night if I choose a single room.<br>
-            • I confirm my information is accurate and I will comply with the rules.<br>
-            • No refunds for no-shows or late cancellations.
-          `;
-          termsText.style.display = 'block';
-        } else {
-          // Autre pays sélectionné - afficher en EUR/USD
-          feesText.innerHTML = "The participation fee is <strong>120 EUR/USD per night</strong>.";
-          feesText.style.display = 'block';
-          roomUpgradeYesLabel.innerHTML = '<input type="radio" name="Room Upgrade" value="Yes"> Yes (+50 EUR/USD per night)';
-          roomUpgradeGroup.style.display = 'block';
-          termsText.innerHTML = `
-            • I understand the total conference fee is <strong>120 EUR/USD per night</strong>.<br>
-            • I accept the 100% cancellation fee if I cancel.<br>
-            • I agree to pay +50 EUR/USD per night if I choose a single room.<br>
-            • I confirm my information is accurate and I will comply with the rules.<br>
-            • No refunds for no-shows or late cancellations.
-          `;
+        }
+        if(termsText) {
+          termsText.innerHTML =
+            '• I understand the total conference fee is <strong>100 dinars per night</strong>.<br>'+
+            '• I accept the 100% cancellation fee if I cancel.<br>'+
+            '• I agree to pay +100 dinars for 2 nights if I choose a single room.<br>'+
+            '• I confirm my information is accurate and I will comply with the rules.<br>'+
+            '• No refunds for no-shows or late cancellations.';
           termsText.style.display = 'block';
         }
-      });
-    }
+      }
+      // --- Pour Internationals ---
+      else if(type === 'international') {
+        if(totalFeesBox) {
+          totalFeesBox.style.display = 'block';
+          totalFeesBox.innerHTML = 'Total Fees: <span style="color:#0a2540; font-size:1.2em;">240 €</span> <span style="font-size:0.85em; color:#38525c;">(3 days (2 nights))</span>';
+        }
+        if(countrySelect) {
+          // Retirer Tunisia
+          let options = Array.from(countrySelect.options).filter(opt => opt.value !== 'Tunisia');
+          countrySelect.innerHTML = '';
+          options.forEach(opt => countrySelect.appendChild(opt));
+          countrySelect.value = '';
+          countrySelect.disabled = false;
+        }
+        if(feesText) {
+          feesText.innerHTML = 'The participation fee is <strong>120 € per night</strong>.';
+          feesText.style.display = 'block';
+        }
+        if(roomUpgradeYesLabel) {
+          roomUpgradeYesLabel.innerHTML = '<input type="radio" name="Room Upgrade" value="Yes"> Yes (+100 € for 2 nights)';
+        }
+        if(roomUpgradeGroup) {
+          roomUpgradeGroup.style.display = 'block';
+        }
+        if(termsText) {
+          termsText.innerHTML =
+            '• I understand the total conference fee is <strong>120 € per night</strong>.<br>'+
+            '• I accept the 100% cancellation fee if I cancel.<br>'+
+            '• I agree to pay +100 € for 2 nights if I choose a single room.<br>'+
+            '• I confirm my information is accurate and I will comply with the rules.<br>'+
+            '• No refunds for no-shows or late cancellations.';
+          termsText.style.display = 'block';
+        }
+      }
+      // --- Sinon comportement normal (tous pays, dynamique) ---
+      else {
+        if(totalFeesBox) totalFeesBox.style.display = 'none';
+      }
+    });
   </script>
 </body>
 </html>
