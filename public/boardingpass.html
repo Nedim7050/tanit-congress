@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>✈️ Tanit Airlines - Boarding Pass</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -30,10 +30,8 @@
       border: 1.5px dashed #b3e0ff;
       margin: 40px 0 0 0;
       transition: box-shadow 0.2s;
-      /* Texture papier subtile */
       background-image: repeating-linear-gradient(135deg, #f7fafd 0 2px, transparent 2px 20px);
     }
-    /* Effet détachable : demi-cercles */
     .bp-perforation {
       position: absolute;
       top: 32px;
@@ -67,6 +65,9 @@
       opacity: 0.10;
       z-index: 0;
       pointer-events: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
       user-select: none;
       line-height: 1;
     }
@@ -99,7 +100,6 @@
       background: #1976d2;
       border-radius: 36px 0 0 0;
     }
-    /* Effet glossy bandeau */
     .bp-header::after {
       content: '';
       position: absolute;
@@ -321,15 +321,12 @@
       .bp-center { width: 100px; }
       .bp-emoji-bg { font-size: 4.5em; }
     }
-    
-    /* Optimisations mobile supplémentaires */
     @media (max-width: 600px) {
       .boarding-pass {
         margin: 20px 10px !important;
         border-radius: 20px !important;
         min-height: 380px !important;
       }
-      
       .bp-header {
         font-size: 1.1rem !important;
         padding: 20px 20px 15px 60px !important;
@@ -340,69 +337,57 @@
         min-height: 70px !important;
         flex-wrap: wrap !important;
       }
-      
       .bp-header .ticket-number {
         font-size: 0.6em !important;
         right: 15px !important;
         top: 10px !important;
         transform: none !important;
       }
-      
       .bp-header .plane {
         font-size: 2em !important;
         left: 25px !important;
       }
-      
       .bp-content {
         padding: 30px 0 !important;
         flex-direction: column !important;
         gap: 20px !important;
       }
-      
       .bp-info-left, .bp-info-right {
         padding: 0 20px !important;
         min-width: auto !important;
         font-size: 0.9em !important;
         gap: 20px !important;
       }
-      
       .bp-info-right {
         align-items: flex-start !important;
         text-align: left !important;
       }
-      
       .bp-center {
         width: auto !important;
         margin: 10px 0 !important;
       }
-      
       .bp-left-col {
         width: 60px !important;
       }
-      
       .bp-left-col span {
         font-size: 1em !important;
       }
-      
       .bp-row-info-inline {
         flex-direction: column !important;
         gap: 8px !important;
         align-items: flex-start !important;
       }
-      
       .bp-row-info-inline span {
         white-space: normal !important;
         flex-direction: column !important;
         align-items: flex-start !important;
         gap: 2px !important;
       }
-      
       .bp-actions {
         flex-direction: column !important;
         gap: 12px !important;
         margin: 20px 0 !important;
       }
-      
       .bp-btn {
         padding: 12px 24px !important;
         font-size: 1rem !important;
@@ -410,27 +395,22 @@
         max-width: 280px !important;
         justify-content: center !important;
       }
-      
       .bp-emoji-bg {
         font-size: 3em !important;
       }
-      
       .bp-perforation {
         display: none !important;
       }
-      
       .bp-footer {
         margin: 15px 15px 10px 0 !important;
         font-size: 0.9em !important;
       }
     }
-    
     @media (max-width: 400px) {
       .boarding-pass {
         margin: 15px 5px !important;
         min-height: 350px !important;
       }
-      
       .bp-header {
         font-size: 1rem !important;
         padding: 15px 15px 10px 50px !important;
@@ -439,42 +419,34 @@
         line-height: 1.2 !important;
         min-height: 60px !important;
       }
-      
       .bp-header .ticket-number {
         font-size: 0.5em !important;
         right: 10px !important;
         top: 8px !important;
       }
-      
       .bp-header .plane {
         font-size: 1.8em !important;
         left: 20px !important;
       }
-      
       .bp-content {
         padding: 20px 0 !important;
         gap: 15px !important;
       }
-      
       .bp-info-left, .bp-info-right {
         padding: 0 15px !important;
         font-size: 0.85em !important;
         gap: 15px !important;
       }
-      
       .bp-left-col {
         width: 50px !important;
       }
-      
       .bp-left-col span {
         font-size: 0.9em !important;
       }
-      
       .bp-btn {
         padding: 10px 20px !important;
         font-size: 0.9rem !important;
       }
-      
       .bp-emoji-bg {
         font-size: 2.5em !important;
       }
@@ -497,9 +469,6 @@
         padding: 0.15em 0.5em;
         margin-left: 1em;
       }
-    }
-    #plane-bg-anim {
-      z-index: 2 !important;
     }
   </style>
 </head>
@@ -550,47 +519,101 @@
     <a href="index.html" class="bp-btn secondary">🏠 Accueil</a>
     <button class="bp-btn" id="downloadBtn" aria-label="Télécharger le boarding pass">⬇️ Télécharger</button>
   </div>
+
   <script>
-    // Récupérer les paramètres de l'URL
-    const urlParams = new URLSearchParams(window.location.search);
-    function decodeParam(param) {
-      return param ? decodeURIComponent(param) : '-';
-    }
-    document.addEventListener('DOMContentLoaded', function() {
-      // Afficher les données du passager
-      document.getElementById('name').textContent = decodeParam(urlParams.get('name'));
-      document.getElementById('country').textContent = decodeParam(urlParams.get('country'));
-      document.getElementById('dob').textContent = decodeParam(urlParams.get('dob'));
-      document.getElementById('phone').textContent = decodeParam(urlParams.get('phone'));
-      
-      // Afficher le numéro de ticket
-      const ticketNumber = decodeParam(urlParams.get('ticketNumber'));
-      if (ticketNumber && ticketNumber !== '-') {
-        document.getElementById('ticketNumber').textContent = `#${ticketNumber}`;
-        document.getElementById('ticketNumber').style.display = 'inline';
+    // Fonction pour récupérer les données depuis localStorage
+    function getBoardingPassData() {
+      try {
+        const data = localStorage.getItem('boardingPassData');
+        console.log('localStorage brut:', data);
+        if (data) {
+          const parsedData = JSON.parse(data);
+          console.log('Données parsées:', parsedData);
+          return parsedData;
+        }
+      } catch (error) {
+        console.error('Erreur lors de la récupération des données:', error);
       }
-      
-      // Debug: afficher les paramètres dans la console
-      console.log('Paramètres reçus:', {
-        name: urlParams.get('name'),
-        country: urlParams.get('country'),
-        dob: urlParams.get('dob'),
-        phone: urlParams.get('phone'),
-        ticketNumber: urlParams.get('ticketNumber')
+      console.log('Aucune donnée trouvée dans localStorage');
+     
+      // Fallback: données de test pour vérifier si l'affichage fonctionne
+      console.log('Utilisation des données de test...');
+      return {
+        name: 'Test User',
+        country: 'Test Country',
+        dob: '1990-01-01',
+        phone: '123456789',
+        ticketNumber: 'TN123456789'
+      };
+    }
+
+    // Fonction pour afficher les données sur le billet
+    function displayBoardingPassData() {
+      const data = getBoardingPassData();
+      console.log('Données à afficher:', data);
+
+      // Récupérer les éléments
+      const nameElement = document.getElementById('name');
+      const countryElement = document.getElementById('country');
+      const dobElement = document.getElementById('dob');
+      const phoneElement = document.getElementById('phone');
+      const ticketElement = document.getElementById('ticketNumber');
+
+      // Vérifier si les éléments existent
+      if (!nameElement || !countryElement || !dobElement || !phoneElement || !ticketElement) {
+        console.error('Éléments manquants:', {
+          name: !!nameElement,
+          country: !!countryElement,
+          dob: !!dobElement,
+          phone: !!phoneElement,
+          ticket: !!ticketElement
+        });
+        return;
+      }
+
+      console.log('Éléments trouvés, affichage des données...');
+      console.log('Valeurs avant affichage:', {
+        name: data.name,
+        country: data.country,
+        dob: data.dob,
+        phone: data.phone,
+        ticket: data.ticketNumber
       });
-    });
-    
-    // PDF Download
-    document.getElementById('downloadBtn').addEventListener('click', function() {
+
+      // Afficher les données
+      nameElement.textContent = data.name || '-';
+      countryElement.textContent = data.country || '-';
+      dobElement.textContent = data.dob || '-';
+      phoneElement.textContent = data.phone || '-';
+
+      // Afficher le numéro de ticket
+      if (data.ticketNumber) {
+        ticketElement.textContent = `#${data.ticketNumber}`;
+        ticketElement.style.display = 'inline';
+      }
+
+      console.log('Données affichées:', {
+        name: nameElement.textContent,
+        country: countryElement.textContent,
+        dob: dobElement.textContent,
+        phone: phoneElement.textContent,
+        ticket: ticketElement.textContent
+      });
+    }
+
+    // Fonction pour télécharger le billet
+    function downloadBoardingPass() {
       const ticket = document.getElementById('bp-ticket');
-      const loadingText = this.innerHTML;
-      this.innerHTML = '⏳ Génération...';
-      this.disabled = true;
+      const downloadBtn = document.getElementById('downloadBtn');
+      const loadingText = downloadBtn.innerHTML;
       
+      downloadBtn.innerHTML = '⏳ Génération...';
+      downloadBtn.disabled = true;
+
       // Détecter si on est sur mobile
       const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-      
-      // Options optimisées pour mobile
+
+      // Options pour html2canvas
       const canvasOptions = {
         backgroundColor: '#ffffff',
         scale: isMobile ? 1 : 2,
@@ -605,55 +628,71 @@
         logging: false,
         removeContainer: true
       };
-      
-      html2canvas(ticket, canvasOptions).then(canvas => {
-        try {
-          const imgData = canvas.toDataURL('image/png', isMobile ? 0.7 : 1.0);
-          
-          if (isMobile) {
-            // iOS/Safari: download bloqué, ouvrir dans un nouvel onglet
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-            if (isIOS) {
-              alert('Sur iPhone/iPad, le billet va s’ouvrir dans un nouvel onglet. Pour l’enregistrer, effectuez un appui long sur l’image puis "Ajouter aux Photos".');
-              const newWindow = window.open();
-              newWindow.document.write('<html><body style="margin:0;"><img src="' + imgData + '" style="width:100vw;max-width:100%;height:auto;display:block;" /></body></html>');
-              newWindow.document.close();
+
+      html2canvas(ticket, canvasOptions)
+        .then(canvas => {
+          try {
+            const imgData = canvas.toDataURL('image/png', isMobile ? 0.7 : 1.0);
+
+            if (isMobile) {
+              // iOS/Safari: ouvrir dans un nouvel onglet
+              const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+              if (isIOS) {
+                alert('Sur iPhone/iPad, le billet va s\'ouvrir dans un nouvel onglet. Pour l\'enregistrer, effectuez un appui long sur l\'image puis "Ajouter aux Photos".');
+                const newWindow = window.open();
+                newWindow.document.write('<html><body style="margin:0;"><img src="' + imgData + '" style="width:100vw;max-width:100%;height:auto;display:block;" /></body></html>');
+                newWindow.document.close();
+              } else {
+                // Android/Chrome: téléchargement direct
+                const link = document.createElement('a');
+                link.href = imgData;
+                link.download = 'boarding-pass-tanit.png';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              }
             } else {
-              // Android/Chrome: download direct
-              const link = document.createElement('a');
-              link.href = imgData;
-              link.download = 'boarding-pass-tanit.png';
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
+              // Desktop: générer PDF
+              const pdf = new window.jspdf.jsPDF({
+                orientation: 'landscape',
+                unit: 'pt',
+                format: [canvas.width * 0.75, canvas.height * 0.75]
+              });
+
+              const imgWidth = pdf.internal.pageSize.getWidth();
+              const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+              pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+              pdf.save('boarding-pass-tanit.pdf');
             }
-          } else {
-            // Sur desktop, générer PDF
-            const pdf = new window.jspdf.jsPDF({
-              orientation: 'landscape', 
-              unit: 'pt', 
-              format: [canvas.width * 0.75, canvas.height * 0.75]
-            });
-            
-            const imgWidth = pdf.internal.pageSize.getWidth();
-            const imgHeight = (canvas.height * imgWidth) / canvas.width;
-            
-            pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-            pdf.save('boarding-pass-tanit.pdf');
+
+            downloadBtn.innerHTML = loadingText;
+            downloadBtn.disabled = false;
+          } catch (error) {
+            console.error('Erreur lors de la génération:', error);
+            alert('Erreur lors de la génération. Veuillez réessayer.');
+            downloadBtn.innerHTML = loadingText;
+            downloadBtn.disabled = false;
           }
-          
-          this.innerHTML = loadingText;
-          this.disabled = false;
-        } catch (error) {
+        })
+        .catch(error => {
+          console.error('Erreur html2canvas:', error);
           alert('Erreur lors de la génération. Veuillez réessayer.');
-          this.innerHTML = loadingText;
-          this.disabled = false;
-        }
-      }).catch(error => {
-        alert('Erreur lors de la génération. Veuillez réessayer.');
-        this.innerHTML = loadingText;
-        this.disabled = false;
-      });
+          downloadBtn.innerHTML = loadingText;
+          downloadBtn.disabled = false;
+        });
+    }
+
+    // Initialisation quand le DOM est chargé
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOM chargé, affichage des données...');
+      displayBoardingPassData();
+
+      // Ajouter l'événement de téléchargement
+      const downloadBtn = document.getElementById('downloadBtn');
+      if (downloadBtn) {
+        downloadBtn.addEventListener('click', downloadBoardingPass);
+      }
     });
   </script>
 </body>

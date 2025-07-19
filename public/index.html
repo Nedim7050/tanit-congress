@@ -45,11 +45,246 @@
         .cc-slide-card { width: 100% !important; max-width: 320px !important; height: auto !important; margin: 0 auto !important; flex-direction: column !important; align-items: center !important; padding: 1.2rem !important; background: rgba(255,255,255,0.97) !important; border-radius: 16px !important; box-shadow: 0 4px 16px rgba(0,0,0,0.08) !important; }
         .cc-photo { width: 90px !important; height: 90px !important; margin: 0 0 1rem 0 !important; flex-shrink: 0 !important; }
         .cc-desc { opacity: 1 !important; transform: none !important; background: transparent !important; box-shadow: none !important; padding: 0 !important; text-align: center !important; min-width: auto !important; min-height: auto !important; max-width: none !important; font-size: 1rem !important; }
+        
+        /* Amélioration des titres de sections pour mobile */
+        .section-title h2,
+        .section-title .h2,
+        h2.section-title {
+          font-size: 2.2rem !important;
+          font-weight: 700 !important;
+          line-height: 1.2 !important;
+          letter-spacing: -0.5px !important;
+          margin-bottom: 1rem !important;
+          background: linear-gradient(135deg, #092e39 0%, #2d97cb 100%) !important;
+          -webkit-background-clip: text !important;
+          -webkit-text-fill-color: transparent !important;
+          background-clip: text !important;
+          text-shadow: none !important;
+        }
+        
+        .section-title .text-primary,
+        .section-title .text-primary-emphasis {
+          color: #2d97cb !important;
+          font-weight: 700 !important;
+        }
+        
+        .section-title p,
+        .section-title .lead {
+          font-size: 1.1rem !important;
+          line-height: 1.5 !important;
+          color: #38525c !important;
+          font-weight: 400 !important;
+          margin-top: 0.8rem !important;
+          opacity: 0.9 !important;
+        }
+        
+        /* Titres spécifiques pour différentes sections */
+        .hero-title h1,
+        .hero-title .h1 {
+          font-size: 2.8rem !important;
+          font-weight: 800 !important;
+          line-height: 1.1 !important;
+          letter-spacing: -1px !important;
+          background: linear-gradient(135deg, #092e39 0%, #2d97cb 50%, #1e3a8a 100%) !important;
+          -webkit-background-clip: text !important;
+          -webkit-text-fill-color: transparent !important;
+          background-clip: text !important;
+        }
+        
+        /* Titres de cartes et sous-sections */
+        .card-title,
+        .card .h5,
+        .card h5 {
+          font-size: 1.3rem !important;
+          font-weight: 600 !important;
+          line-height: 1.3 !important;
+          color: #092e39 !important;
+          margin-bottom: 0.8rem !important;
+        }
+        
+        /* Titres de navigation et autres */
+        .navbar-brand,
+        .navbar-title {
+          font-weight: 700 !important;
+          letter-spacing: -0.3px !important;
+        }
+        
+        /* Styles spécifiques pour les boutons de registration sur mobile */
+        .tanit-hero-btns .btn,
+        .tanit-reg-btns .btn {
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: center !important;
+          padding: 0.8rem 1.2rem !important;
+          min-height: 75px !important;
+          text-align: center !important;
+          border-radius: 25px !important;
+          font-weight: 600 !important;
+          line-height: 1.2 !important;
+        }
+        
+        .tanit-hero-btns .btn span:first-child,
+        .tanit-reg-btns .btn span:first-child {
+          display: block !important;
+          margin-bottom: 0.2em !important;
+          font-size: 0.9rem !important;
+          line-height: 1.1 !important;
+          max-width: 100% !important;
+        }
+        
+        .tanit-hero-btns .btn span:last-child,
+        .tanit-reg-btns .btn span:last-child {
+          display: block !important;
+          font-size: 1em !important;
+          margin-top: 0.1em !important;
+          font-weight: 700 !important;
+        }
       }
-      /* Désactiver l'animation du slider CC Team sur mobile */
-      @media (max-width: 768px) {
-        #cc-team-slider { animation: none !important; }
-      }
+              /* Désactiver l'animation du slider CC Team sur mobile */
+        @media (max-width: 768px) {
+          #cc-team-slider { animation: none !important; }
+        }
+        
+        /* Styles pour mobile portrait (écrans très petits) */
+        @media (max-width: 480px) {
+          .tanit-hero-btns .btn,
+          .tanit-reg-btns .btn {
+            min-width: 180px !important;
+            padding: 0.7rem 1rem !important;
+            min-height: 65px !important;
+            font-size: 0.9rem !important;
+            border-radius: 20px !important;
+          }
+          
+          .tanit-hero-btns .btn span:first-child,
+          .tanit-reg-btns .btn span:first-child {
+            font-size: 0.85rem !important;
+            line-height: 1.1 !important;
+            margin-bottom: 0.15em !important;
+          }
+          
+          .tanit-hero-btns .btn span:last-child,
+          .tanit-reg-btns .btn span:last-child {
+            font-size: 0.95rem !important;
+            margin-top: 0.05em !important;
+          }
+          
+          /* Titres optimisés pour petits écrans */
+          .section-title h2,
+          .section-title .h2,
+          h2.section-title {
+            font-size: 1.9rem !important;
+            line-height: 1.15 !important;
+            letter-spacing: -0.3px !important;
+            margin-bottom: 0.8rem !important;
+          }
+          
+          .hero-title h1,
+          .hero-title .h1 {
+            font-size: 2.4rem !important;
+            line-height: 1.1 !important;
+            letter-spacing: -0.8px !important;
+          }
+          
+          .section-title p,
+          .section-title .lead {
+            font-size: 1rem !important;
+            line-height: 1.4 !important;
+            margin-top: 0.6rem !important;
+          }
+          
+          .card-title,
+          .card .h5,
+          .card h5 {
+            font-size: 1.2rem !important;
+            line-height: 1.25 !important;
+            margin-bottom: 0.6rem !important;
+          }
+        }
+        
+        /* Styles pour très petits écrans (iPhone SE, etc.) */
+        @media (max-width: 375px) {
+          .tanit-hero-btns .btn,
+          .tanit-reg-btns .btn {
+            min-width: 160px !important;
+            padding: 0.6rem 0.8rem !important;
+            min-height: 60px !important;
+          }
+          
+          .tanit-hero-btns .btn span:first-child,
+          .tanit-reg-btns .btn span:first-child {
+            font-size: 0.8rem !important;
+          }
+          
+          .tanit-hero-btns .btn span:last-child,
+          .tanit-reg-btns .btn span:last-child {
+            font-size: 0.9rem !important;
+          }
+          
+          /* Titres ultra-optimisés pour très petits écrans */
+          .section-title h2,
+          .section-title .h2,
+          h2.section-title {
+            font-size: 1.7rem !important;
+            line-height: 1.1 !important;
+            letter-spacing: -0.2px !important;
+            margin-bottom: 0.7rem !important;
+          }
+          
+          .hero-title h1,
+          .hero-title .h1 {
+            font-size: 2.1rem !important;
+            line-height: 1.05 !important;
+            letter-spacing: -0.6px !important;
+          }
+          
+          .section-title p,
+          .section-title .lead {
+            font-size: 0.95rem !important;
+            line-height: 1.35 !important;
+            margin-top: 0.5rem !important;
+          }
+          
+          .card-title,
+          .card .h5,
+          .card h5 {
+            font-size: 1.1rem !important;
+            line-height: 1.2 !important;
+            margin-bottom: 0.5rem !important;
+          }
+        }
+        
+        /* Améliorations générales pour tous les titres sur mobile */
+        @media (max-width: 768px) {
+          /* Effet de profondeur subtil pour les titres */
+          .section-title h2::after,
+          .section-title .h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #2d97cb, #1e3a8a);
+            margin: 0.8rem auto 0;
+            border-radius: 2px;
+          }
+          
+          /* Amélioration de la lisibilité */
+          .section-title,
+          .hero-title {
+            text-align: center !important;
+            padding: 0 1rem !important;
+          }
+          
+          /* Espacement optimisé entre sections */
+          section {
+            padding-bottom: 4rem !important;
+          }
+          
+          section:last-child {
+            padding-bottom: 2rem !important;
+          }
+        }
       /* Avion toujours derrière le contenu important */
       #plane-bg-anim { z-index: 9999 !important; pointer-events: none !important; }
       /* Images lazy loading par défaut */
@@ -116,12 +351,14 @@
                 <img class="hero-img" src="https://res.cloudinary.com/dfgycmek8/image/upload/v1752788800/hero-img_vp7zve.png" alt="hero-header" style="width: 100%; max-width: 900px; min-width: 280px; display:block; margin:0 auto;" loading="lazy" />
                 <div class="hero-caption-mobile" style="position:absolute; left:50%; transform:translateX(-50%); bottom:-32px; width:100%; max-width:90vw; z-index:2;">
                   <p class="fw-medium mb-2 hero-caption-text" style="color: #38525c; font-size: 1.25rem; background:rgba(255,255,255,0.92); display:inline-block; padding:0.4em 1.2em; border-radius:18px; box-shadow:0 2px 12px 0 rgba(33,151,203,0.08);">#TANITAirlines - Elevate Your Journey</p><br>
-                  <div class="d-flex justify-content-center gap-3 flex-wrap" style="margin-top: 1.2rem;">
-                    <a class="btn btn-primary btn-lg border-0 primary-btn-shadow" style="background: #092e39; border-radius: 30px; min-width: 220px; font-weight: 700; font-size: 1.1rem;" href="registration.html?type=tunisian" role="button" data-aos="zoom-in">
-                      Registration for Tunisians <span style="font-size:1.2em; margin-left:0.5em;">✈️ Fly Now</span>
+                  <div class="tanit-hero-btns d-flex justify-content-center gap-3 flex-wrap" style="margin-top: 1.2rem;">
+                    <a class="btn btn-primary btn-lg border-0 primary-btn-shadow" style="background: #092e39; border-radius: 30px; min-width: 220px; font-weight: 700; font-size: 1.1rem; display: flex; flex-direction: column; align-items: center; padding: 1rem 1.5rem;" href="registration-tunisian.html?v=2" role="button" data-aos="zoom-in">
+                      <span>Registration for Tunisians</span>
+                      <span style="font-size:1.2em; margin-top:0.3em;">✈️ FLY NOW</span>
                     </a>
-                    <a class="btn btn-outline-primary btn-lg border-0 primary-btn-shadow" style="border-radius: 30px; min-width: 220px; font-weight: 700; font-size: 1.1rem; border:2px solid #2d97cb; color:#2d97cb; background:#fff;" href="registration.html?type=international" role="button" data-aos="zoom-in">
-                      Registration for Internationals <span style="font-size:1.2em; margin-left:0.5em;">✈️ Fly Now</span>
+                    <a class="btn btn-outline-primary btn-lg border-0 primary-btn-shadow" style="border-radius: 30px; min-width: 220px; font-weight: 700; font-size: 1.1rem; border:2px solid #2d97cb; color:#2d97cb; background:#fff; display: flex; flex-direction: column; align-items: center; padding: 1rem 1.5rem;" href="registration-international.html?v=2" role="button" data-aos="zoom-in">
+                      <span>Registration for Internationals</span>
+                      <span style="font-size:1.2em; margin-top:0.3em;">✈️ FLY NOW</span>
                     </a>
                   </div>
                 </div>
@@ -215,12 +452,14 @@
                   <p>Venue: Hotel in Hammamet<br>Date: August 2025</p>
                 </div>
               </div>
-              <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3 mt-4 mb-2" style="width:100%;">
-                <a class="btn btn-primary btn-lg border-0 primary-btn-shadow mb-2 mb-md-0" style="background: #092e39; border-radius: 30px; min-width: 220px; font-weight: 700; font-size: 1.1rem;" href="registration.html?type=tunisian">
-                  Registration for Tunisians <span style="font-size:1.2em; margin-left:0.5em;">✈️ Fly Now</span>
+              <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3 mt-4 mb-2 tanit-reg-btns" style="width:100%;">
+                <a class="btn btn-primary btn-lg border-0 primary-btn-shadow mb-2 mb-md-0" style="background: #092e39; border-radius: 30px; min-width: 220px; font-weight: 700; font-size: 1.1rem; display: flex; flex-direction: column; align-items: center; padding: 1rem 1.5rem;" href="registration-tunisian.html?v=2">
+                  <span>Registration for Tunisians</span>
+                  <span style="font-size:1.2em; margin-top:0.3em;">✈️ FLY NOW</span>
                 </a>
-                <a class="btn btn-outline-primary btn-lg border-0 primary-btn-shadow" style="border-radius: 30px; min-width: 220px; font-weight: 700; font-size: 1.1rem; border:2px solid #2d97cb; color:#2d97cb; background:#fff;" href="registration.html?type=international">
-                  Registration for Internationals <span style="font-size:1.2em; margin-left:0.5em;">✈️ Fly Now</span>
+                <a class="btn btn-outline-primary btn-lg border-0 primary-btn-shadow" style="border-radius: 30px; min-width: 220px; font-weight: 700; font-size: 1.1rem; border:2px solid #2d97cb; color:#2d97cb; background:#fff; display: flex; flex-direction: column; align-items: center; padding: 1rem 1.5rem;" href="registration-international.html?v=2">
+                  <span>Registration for Internationals</span>
+                  <span style="font-size:1.2em; margin-top:0.3em;">✈️ FLY NOW</span>
                 </a>
               </div>
             </div>
@@ -262,24 +501,24 @@
           }
           function initCommitteeSlider() {
             const members = [
-              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/v1752792581/1_cttez8.jpg', desc: 'Ines Hamdoun : CCP'},
-              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/v1752792343/2_iv7jni.jpg', desc: 'Rima Sandly : CCVP COM'},
-              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/v1752792334/3_nmx0hp.jpg', desc: 'Nour Tarchouna : CC COM'},
-              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/v1752792333/4_rstmmr.jpg', desc: 'Ghofrane Mgherbi : CC COM'},
-              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/v1752792333/5_cg5ytk.jpg', desc: 'Farah Kharrat : CC COM'},
-              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/v1752792329/6_yk55gb.jpg', desc: 'Wejden Wm : CC COM'},
-              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/v1752792331/7_jtrqzt.jpg', desc: 'Karim Chaabane : CCVP ER'},
-              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/v1752792330/8_ucmmxx.jpg', desc: 'Nada Ourabi : CC ER'},
-              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/v1752792329/9_mhtzai.jpg', desc: 'Iyed Menzli : CC ER'},
-              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/v1752792332/10_exjz9x.jpg', desc: 'Malek Nasri : CC ER'},
-              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/v1752792323/11_p1gadm.jpg', desc: 'Moomen Chaouachi : CC ER'},
-              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/v1752792324/13_yx3bpe.jpg', desc: 'Tasnim Necib : CC DXP'},
-              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/v1752792323/14_ezltvc.jpg', desc: 'Nedim Mejri : CC DXP'},
-              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/v1752792327/15_aqvnwn.jpg', desc: 'Amine Ben Attaya : CCVP LOG'},
-              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/v1752792326/16_ajh8ad.jpg', desc: 'Malek Boubakri : CC LOG'},
-              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/v1752792326/17_vsw5c3.jpg', desc: 'Med Ali Marzouk : CC LOG'},
-              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/v1752792324/18_q6lv6y.jpg', desc: 'Razan Laabidi : CC LOG'},
-              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/v1752792324/19_reupoj.jpg', desc: 'Khalil Ben Said : CC LOG'}
+              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/w_300,q_70/v1752792581/1_cttez8.jpg', desc: 'Ines Hamdoun : CCP'},
+              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/w_300,q_70/v1752792343/2_iv7jni.jpg', desc: 'Rima Sandly : CCVP COM'},
+              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/w_300,q_70/v1752792334/3_nmx0hp.jpg', desc: 'Nour Tarchouna : CC COM'},
+              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/w_300,q_70/v1752792333/4_rstmmr.jpg', desc: 'Ghofrane Mgherbi : CC COM'},
+              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/w_300,q_70/v1752792333/5_cg5ytk.jpg', desc: 'Farah Kharrat : CC COM'},
+              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/w_300,q_70/v1752792329/6_yk55gb.jpg', desc: 'Wejden Wm : CC COM'},
+              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/w_300,q_70/v1752792331/7_jtrqzt.jpg', desc: 'Karim Chaabane : CCVP ER'},
+              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/w_300,q_70/v1752792330/8_ucmmxx.jpg', desc: 'Nada Ourabi : CC ER'},
+              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/w_300,q_70/v1752792329/9_mhtzai.jpg', desc: 'Iyed Menzli : CC ER'},
+              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/w_300,q_70/v1752792332/10_exjz9x.jpg', desc: 'Malek Nasri : CC ER'},
+              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/w_300,q_70/v1752792323/11_p1gadm.jpg', desc: 'Moomen Chaouachi : CC ER'},
+              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/w_300,q_70/v1752792324/13_yx3bpe.jpg', desc: 'Tasnim Necib : CC DXP'},
+              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/w_300,q_70/v1752792323/14_ezltvc.jpg', desc: 'Nedim Mejri : CC DXP'},
+              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/w_300,q_70/v1752792327/15_aqvnwn.jpg', desc: 'Amine Ben Attaya : CCVP LOG'},
+              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/w_300,q_70/v1752792326/16_ajh8ad.jpg', desc: 'Malek Boubakri : CC LOG'},
+              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/w_300,q_70/v1752792326/17_vsw5c3.jpg', desc: 'Med Ali Marzouk : CC LOG'},
+              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/w_300,q_70/v1752792324/18_q6lv6y.jpg', desc: 'Razan Laabidi : CC LOG'},
+              {src: 'https://res.cloudinary.com/dfgycmek8/image/upload/w_300,q_70/v1752792324/19_reupoj.jpg', desc: 'Khalil Ben Said : CC LOG'}
             ];
             let current = 0;
             const slider = document.getElementById('cc-team-slider');
@@ -942,22 +1181,91 @@ window.addEventListener('resize', safeInitCommitteeSlider);
       }
     </style>
     <style>
-      @media (max-width: 768px) {
-        .cc-desc {
-          font-size: 0.85rem !important;
-          min-width: 120px !important;
-          max-width: 180px !important;
-          padding: 0.7rem 1.2rem !important;
-          min-height: 48px !important;
-          background: rgba(255,255,255,0.95) !important;
-          border-radius: 16px !important;
-          box-shadow: 0 1px 4px rgba(0,0,0,0.06) !important;
-          text-align: center !important;
-          margin: 0 auto !important;
-          display: flex !important;
+      /* HERO BUTTONS (Accueil) */
+      @media (max-width: 600px) {
+        .tanit-hero-btns {
           flex-direction: column !important;
           align-items: center !important;
           justify-content: center !important;
+          gap: 1.2rem !important;
+          width: 100% !important;
+          margin-top: 1.5rem !important;
+          margin-bottom: 0.5rem !important;
+        }
+        .tanit-hero-btns a {
+          width: 100% !important;
+          max-width: 320px !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+          font-size: 1.09rem !important;
+          padding: 1em 0 !important;
+          border-radius: 30px !important;
+          box-shadow: 0 4px 16px rgba(45,151,203,0.10) !important;
+          border: 2px solid #e3f6fd !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          margin-bottom: 0 !important;
+          transition: box-shadow 0.2s, border 0.2s;
+          white-space: normal !important;
+          word-break: break-word !important;
+          text-align: center !important;
+        }
+        .tanit-hero-btns .btn-outline-primary {
+          background: #fff !important;
+          color: #2d97cb !important;
+          border: 2px solid #2d97cb !important;
+          box-shadow: 0 4px 16px rgba(45,151,203,0.10) !important;
+        }
+        .tanit-hero-btns span {
+          font-size: 1.13em !important;
+        }
+      }
+      /* REGISTRATION SECTION BUTTONS */
+      @media (max-width: 600px) {
+        .tanit-reg-btns {
+          flex-direction: column !important;
+          align-items: center !important;
+          gap: 1.1rem !important;
+          width: 100% !important;
+          margin-top: 1.5rem !important;
+          margin-bottom: 0.5rem !important;
+        }
+        .tanit-reg-btns a {
+          width: 100% !important;
+          max-width: 320px !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+          font-size: 1.09rem !important;
+          padding: 1em 0 !important;
+          border-radius: 30px !important;
+          box-shadow: 0 4px 16px rgba(45,151,203,0.10) !important;
+          border: 2px solid #e3f6fd !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          margin-bottom: 0 !important;
+          transition: box-shadow 0.2s, border 0.2s;
+          white-space: normal !important;
+          word-break: break-word !important;
+          text-align: center !important;
+        }
+        .tanit-reg-btns .btn-outline-primary {
+          background: #fff !important;
+          color: #2d97cb !important;
+          border: 2px solid #2d97cb !important;
+          box-shadow: 0 4px 16px rgba(45,151,203,0.10) !important;
+        }
+        .tanit-reg-btns span {
+          font-size: 1.13em !important;
+        }
+      }
+      /* Police professionnelle pour titres de section */
+      @media (max-width: 600px) {
+        h3, .fs-xl-10, .fs-lg-8, .fs-7, .font-cursive, .text-secondary {
+          font-family: 'Montserrat', 'Poppins', 'Inter', Arial, sans-serif !important;
+          font-weight: 700 !important;
+          letter-spacing: 0.5px !important;
         }
       }
     </style>
