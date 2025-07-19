@@ -693,13 +693,17 @@
       // Configuration optimisée et compatible
       const canvasOptions = {
         backgroundColor: '#ffffff',
-        scale: isMobile ? 1.2 : 1.5, // Échelle plus faible pour éviter les problèmes
+        scale: isMobile ? 2 : 2.5, // Échelle plus élevée pour une meilleure qualité
         useCORS: true,
         allowTaint: true,
         logging: false,
         removeContainer: true,
         foreignObjectRendering: false, // Désactiver pour éviter les problèmes
         imageTimeout: 0,
+        width: ticket.offsetWidth,
+        height: ticket.offsetHeight,
+        scrollX: 0,
+        scrollY: 0,
         ignoreElements: function(element) {
           // Ignorer les éléments qui peuvent causer des problèmes
           return element.classList.contains('btn') || 
@@ -755,42 +759,52 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0,0,0,0.8);
+        background: rgba(0,0,0,0.9);
         z-index: 10000;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 20px;
+        padding: 10px;
+        overflow-y: auto;
       `;
       
       const imageContainer = document.createElement('div');
       imageContainer.style.cssText = `
         background: white;
-        padding: 20px;
-        border-radius: 10px;
-        max-width: 90%;
-        max-height: 80%;
-        overflow: auto;
+        padding: 15px;
+        border-radius: 12px;
+        width: 100%;
+        max-width: 95%;
         text-align: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
       `;
       
       const img = document.createElement('img');
       img.src = imgData;
       img.style.cssText = `
-        max-width: 100%;
+        width: 100%;
         height: auto;
-        border: 1px solid #ddd;
-        border-radius: 5px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+        -webkit-font-smoothing: antialiased;
       `;
+      
+      // S'assurer que l'image est chargée avec la bonne qualité
+      img.onload = function() {
+        console.log('✅ Image chargée avec succès, dimensions:', this.naturalWidth, 'x', this.naturalHeight);
+      };
       
       const instructions = document.createElement('div');
       instructions.innerHTML = `
-        <div style="margin: 15px 0; color: #333; font-size: 14px;">
-          <strong>📱 Instructions pour sauvegarder :</strong><br>
-          1. Appuyez longuement sur l'image ci-dessus<br>
-          2. Sélectionnez "Enregistrer l'image"<br>
-          3. Ou faites une capture d'écran
+        <div style="margin: 20px 0 15px 0; color: #333; font-size: 15px; line-height: 1.4;">
+          <strong style="color: #1976D2;">📱 Instructions pour sauvegarder :</strong><br><br>
+          <span style="display: inline-block; margin: 5px 0;">1️⃣ Appuyez <strong>longuement</strong> sur l'image ci-dessus</span><br>
+          <span style="display: inline-block; margin: 5px 0;">2️⃣ Sélectionnez <strong>"Enregistrer l'image"</strong></span><br>
+          <span style="display: inline-block; margin: 5px 0;">3️⃣ Ou faites une <strong>capture d'écran</strong></span>
         </div>
       `;
       
@@ -800,11 +814,16 @@
         background: #dc3545;
         color: white;
         border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
+        padding: 12px 24px;
+        border-radius: 6px;
         margin-top: 10px;
         cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: background-color 0.2s;
       `;
+      closeBtn.onmouseover = () => closeBtn.style.background = '#c82333';
+      closeBtn.onmouseout = () => closeBtn.style.background = '#dc3545';
       closeBtn.onclick = () => document.body.removeChild(modal);
       
       imageContainer.appendChild(img);
@@ -819,6 +838,21 @@
           document.body.removeChild(modal);
         }
       };
+      
+      // Empêcher le scroll du body
+      document.body.style.overflow = 'hidden';
+      
+      // Restaurer le scroll quand on ferme
+      const restoreScroll = () => {
+        document.body.style.overflow = '';
+      };
+      
+      closeBtn.addEventListener('click', restoreScroll);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          restoreScroll();
+        }
+      });
     }
     
     // Fonction pour télécharger sur desktop
