@@ -26,6 +26,106 @@
       position: relative;
     }
     
+    /* Styles spécifiques pour mobile */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+        justify-content: flex-start;
+        min-height: auto;
+      }
+      
+      .boarding-pass {
+        margin-bottom: 20px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      }
+      
+      .main-header {
+        padding: 20px 15px;
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+      
+      .airline-info {
+        justify-content: center;
+      }
+      
+      .ticket-main {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+      
+      .passenger-section {
+        border-right: none;
+        border-bottom: 2px dashed #E0E0E0;
+        padding: 20px 15px;
+      }
+      
+      .flight-section {
+        padding: 20px 15px;
+      }
+      
+      .passenger-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      
+      .info-item {
+        padding: 12px;
+      }
+      
+      .section-title {
+        font-size: 1em;
+        margin-bottom: 15px;
+      }
+      
+      .route-city {
+        font-size: 1.1em;
+      }
+      
+      .actions {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+      }
+      
+      .btn {
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 1rem;
+      }
+    }
+    
+    /* Styles pour très petits écrans */
+    @media (max-width: 480px) {
+      .main-header {
+        padding: 15px 10px;
+      }
+      
+      .airline-logo {
+        width: 50px;
+        height: 50px;
+        font-size: 2em;
+      }
+      
+      .airline-details h1 {
+        font-size: 1.5em;
+      }
+      
+      .passenger-section,
+      .flight-section {
+        padding: 15px 10px;
+      }
+      
+      .info-item {
+        padding: 10px;
+      }
+      
+      .info-value {
+        font-size: 1em;
+      }
+    }
+    
     .boarding-pass {
       background: #FFFFFF;
       width: 100%;
@@ -575,31 +675,107 @@
       console.log('🎉 Affichage terminé !');
     }
 
-    // Fonction pour télécharger
+    // Fonction pour télécharger - Version mobile compatible
     function downloadBoardingPass() {
       console.log('⬇️ Téléchargement...');
       const ticket = document.getElementById('bp-ticket');
       
-      html2canvas(ticket, {
+      // Détecter si on est sur mobile
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      console.log('📱 Détection mobile:', isMobile);
+      
+      // Configuration optimisée pour mobile
+      const canvasOptions = {
         backgroundColor: '#ffffff',
-        scale: 2,
+        scale: isMobile ? 1.5 : 2, // Échelle réduite sur mobile pour éviter les problèmes de mémoire
         useCORS: true,
-        allowTaint: true
-      }).then(canvas => {
-        const imgData = canvas.toDataURL('image/png');
+        allowTaint: true,
+        logging: false, // Désactiver les logs pour améliorer les performances
+        width: ticket.offsetWidth,
+        height: ticket.offsetHeight,
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: document.documentElement.offsetWidth,
+        windowHeight: document.documentElement.offsetHeight
+      };
+      
+      console.log('⚙️ Options canvas:', canvasOptions);
+      
+      // Afficher un message de chargement
+      const downloadBtn = document.querySelector('.btn-primary');
+      const originalText = downloadBtn.innerHTML;
+      downloadBtn.innerHTML = '⏳ Génération...';
+      downloadBtn.disabled = true;
+      
+      html2canvas(ticket, canvasOptions).then(canvas => {
+        console.log('✅ Canvas généré, taille:', canvas.width, 'x', canvas.height);
         
-        // Créer un lien de téléchargement
-        const link = document.createElement('a');
-        link.href = imgData;
-        link.download = 'boarding-pass-tanit-tunisian.png';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        try {
+          // Convertir en blob pour une meilleure compatibilité mobile
+          canvas.toBlob(function(blob) {
+            if (blob) {
+              console.log('✅ Blob créé, taille:', blob.size);
+              
+              // Méthode universelle pour tous les appareils
+              if (isMobile) {
+                // Méthode mobile : ouvrir dans un nouvel onglet
+                const url = URL.createObjectURL(blob);
+                const newWindow = window.open(url, '_blank');
+                
+                if (newWindow) {
+                  // Ajouter un message pour guider l'utilisateur
+                  setTimeout(() => {
+                    alert('✅ Votre billet a été généré !\n\n📱 Sur mobile : Appuyez longuement sur l\'image puis "Enregistrer l\'image"\n💻 Sur desktop : L\'image s\'ouvre dans un nouvel onglet, faites clic droit → "Enregistrer sous"');
+                  }, 500);
+                } else {
+                  // Fallback si popup bloqué
+                  const link = document.createElement('a');
+                  link.href = url;
+                  link.download = 'boarding-pass-tanit-tunisian.png';
+                  link.style.display = 'none';
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                  setTimeout(() => URL.revokeObjectURL(url), 1000);
+                }
+              } else {
+                // Méthode desktop : téléchargement direct
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'boarding-pass-tanit-tunisian.png';
+                link.style.display = 'none';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                setTimeout(() => URL.revokeObjectURL(url), 1000);
+              }
+              
+              console.log('✅ Téléchargement terminé');
+            } else {
+              throw new Error('Blob non créé');
+            }
+          }, 'image/png', 0.9);
+          
+        } catch (error) {
+          console.error('❌ Erreur blob:', error);
+          // Fallback : méthode ancienne
+          const imgData = canvas.toDataURL('image/png');
+          const link = document.createElement('a');
+          link.href = imgData;
+          link.download = 'boarding-pass-tanit-tunisian.png';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
         
-        console.log('✅ Téléchargement terminé');
       }).catch(error => {
         console.error('❌ Erreur de téléchargement:', error);
-        alert('Erreur lors du téléchargement');
+        alert('❌ Erreur lors du téléchargement\n\nEssayez de :\n1. Recharger la page\n2. Vérifier votre connexion\n3. Essayer sur un autre navigateur');
+      }).finally(() => {
+        // Restaurer le bouton
+        downloadBtn.innerHTML = originalText;
+        downloadBtn.disabled = false;
       });
     }
 
